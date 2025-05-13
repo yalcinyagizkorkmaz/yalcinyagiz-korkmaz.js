@@ -49,68 +49,41 @@ class ProductCarousel {
     }
 
     createCarousel() {
-        // Banner ve container
-        const banner = document.createElement('div');
-        banner.className = 'banner';
+        // 1. En dış container
         const container = document.createElement('div');
         container.className = 'container';
 
-        // Eski başlık kodunu kaldır veya yorum satırı yap
+        // 2. Başlık için ayrı bir kapsayıcı
+        const headerWrapper = document.createElement('div');
+        headerWrapper.className = 'carousel-header-wrapper';
 
-        // eb-carousel-header yapısı oluştur
-        const ebCarouselHeader = document.createElement('eb-carousel-header');
+        // 3. eb-carousel-header ve başlık
+        const carouselHeader = document.createElement('eb-carousel-header');
+        carouselHeader.className = 'ng-star-inserted';
+
         const bannerTitles = document.createElement('div');
         bannerTitles.className = 'banner__titles';
-        const title = document.createElement('h2');
-        title.className = 'title-primary';
-        title.textContent = 'Sizin için Seçtiklerimiz';
-        bannerTitles.appendChild(title);
-        ebCarouselHeader.appendChild(bannerTitles);
 
-        // banner'ın başına ekle
-        banner.appendChild(ebCarouselHeader);
+        const h2 = document.createElement('h2');
+        h2.className = 'title-primary';
+        h2.textContent = 'Sizin için Seçtiklerimiz';
 
-        // Banner wrapper
-        const bannerWrapper = document.createElement('div');
-        bannerWrapper.className = 'banner__wrapper';
-        bannerWrapper.style.position = 'relative';
-        bannerWrapper.style.display = 'flex';
-        bannerWrapper.style.alignItems = 'center';
-        bannerWrapper.style.background = '#fff';
+        // Yapıyı birleştir
+        bannerTitles.appendChild(h2);
+        carouselHeader.appendChild(bannerTitles);
+        headerWrapper.appendChild(carouselHeader);
+        container.appendChild(headerWrapper);
 
-        // Oklar
-        this.addCarouselArrows(bannerWrapper);
+        // 4. Karusel ve ürünler için ana alan
+        const carouselArea = document.createElement('div');
+        carouselArea.className = 'carousel-area';
+        container.appendChild(carouselArea);
 
-        // Ürünler
-        const productsContainer = document.createElement('div');
-        productsContainer.className = 'products-container';
-        productsContainer.style.background = '#fff';
-        productsContainer.style.setProperty('background', '#fff', 'important');
-        this.products.forEach(product => {
-            const productCard = this.createProductCard(product);
-            productsContainer.appendChild(productCard);
-        });
+        // 5. Sayfada uygun yere ekle (örneğin body'nin başına)
+        document.body.insertBefore(container, document.body.firstChild);
 
-        // Karusel container
-        const productCarousel = document.createElement('div');
-        productCarousel.className = 'product-carousel';
-        productCarousel.style.background = '#fff';
-        productCarousel.style.setProperty('background', '#fff', 'important');
-        productCarousel.appendChild(productsContainer);
-
-        // Okları ve karuseli wrapper'a ekle
-        bannerWrapper.appendChild(productCarousel);
-
-        // Hiyerarşi
-        banner.appendChild(bannerWrapper);
-        container.appendChild(bannerTitles);
-        container.appendChild(banner);
-
-        // Sayfaya ekle
-        const stories = document.querySelector('.stories-section');
-        if (stories) {
-            stories.parentNode.insertBefore(banner, stories.nextSibling);
-        }
+        // Artık carouselArea içerisine ürün karuseli ve okları ekleyebilirsin
+        this.createCarouselArea(this.products, carouselArea);
     }
 
     createProductCard(product) {
@@ -383,6 +356,34 @@ class ProductCarousel {
             const products = container.querySelector('.products-container');
             products.scrollBy({ left: 250, behavior: 'smooth' });
         });
+    }
+
+    createCarouselArea(products, container) {
+        // Ürünleri getir
+        const productsContainer = document.createElement('div');
+        productsContainer.className = 'products-container';
+        productsContainer.style.display = 'flex';
+        productsContainer.style.overflowX = 'auto';
+        productsContainer.style.gap = '24px';
+        productsContainer.style.padding = '0 64px 8px 64px';
+        productsContainer.style.scrollBehavior = 'smooth';
+        productsContainer.style.background = '#fff';
+        productsContainer.style.setProperty('background', '#fff', 'important');
+
+        // Kartları ekle
+        products.forEach(product => {
+            const card = this.createProductCard(product);
+            productsContainer.appendChild(card);
+        });
+
+        // Karusel container
+        const productCarousel = document.createElement('div');
+        productCarousel.className = 'product-carousel';
+        productCarousel.appendChild(productsContainer);
+
+        // Okları ve karuseli wrapper'a ekle
+        this.addCarouselArrows(container);
+        container.appendChild(productCarousel);
     }
 }
 
@@ -1006,3 +1007,42 @@ async function renderCarousel() {
 }
 
 renderCarousel(); 
+
+function createEbebekCarouselHeader() {
+    // .container
+    const container = document.createElement('div');
+    container.className = 'container';
+
+    // eb-carousel-header
+    const carouselHeader = document.createElement('eb-carousel-header');
+    carouselHeader.className = 'ng-star-inserted';
+
+    // .banner__titles
+    const bannerTitles = document.createElement('div');
+    bannerTitles.className = 'banner__titles';
+
+    // h2 başlık
+    const h2 = document.createElement('h2');
+    h2.className = 'title-primary';
+    h2.textContent = 'Sizin için Seçtiklerimiz';
+
+    // Yapıyı birleştir
+    bannerTitles.appendChild(h2);
+    carouselHeader.appendChild(bannerTitles);
+    container.appendChild(carouselHeader);
+
+    // Karusel ve ürünler için bir alan ekle (örnek)
+    const carouselArea = document.createElement('div');
+    carouselArea.className = 'carousel-area'; // buraya karusel ve ürünler eklenecek
+    container.appendChild(carouselArea);
+
+    // Sayfada uygun yere ekle (örneğin body'nin başına)
+    document.body.insertBefore(container, document.body.firstChild);
+
+    // Artık carouselArea'ya ürün karuseli ekleyebilirsiniz
+    return carouselArea;
+}
+
+// Kullanım:
+const carouselArea = createEbebekCarouselHeader();
+// Şimdi carouselArea içine karusel ve ürün kartlarını ekleyebilirsiniz. 
