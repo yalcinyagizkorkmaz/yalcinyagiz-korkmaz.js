@@ -311,29 +311,51 @@ class ProductCarousel {
             const discountDiv = document.createElement('div');
             discountDiv.style.fontWeight = 'bold';
             discountDiv.style.fontSize = '32px';
-            discountDiv.style.color = '#6ab944';
+            discountDiv.style.color = '#43b02a';
             discountDiv.style.display = 'flex';
             discountDiv.style.alignItems = 'center';
-            discountDiv.style.gap = '8px';
+            discountDiv.style.gap = '6px';
             discountDiv.style.justifyContent = 'flex-start';
             discountDiv.style.marginLeft = '0';
             discountDiv.style.marginRight = 'auto';
             discountDiv.style.marginTop = '-2px';
             discountDiv.innerHTML = `
-              <span style="font-weight:bold;font-size:32px;color:#6ab944;">%${discount}</span>
+              <span style="font-weight:bold;font-size:32px;color:#43b02a;">%${discount}</span>
               <span style="
                 display:inline-flex;
                 align-items:center;
-                background:#6ab944;
+                background:none;
                 color:#fff;
-                border-radius:50%;
+                border-radius:0;
                 width:36px;
                 height:36px;
                 justify-content:center;
                 margin-left:0px;
               ">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 16V8M12 16L8 12M12 16L16 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                  <g>
+                    <path d="M18 2
+                      L21.53 7.36
+                      L27.85 6.73
+                      L26.73 12.99
+                      L31.51 16.97
+                      L27.85 21.27
+                      L29.27 27.47
+                      L23.5 28.73
+                      L21.53 34
+                      L18 30.27
+                      L14.47 34
+                      L12.5 28.73
+                      L6.73 27.47
+                      L8.15 21.27
+                      L4.49 16.97
+                      L9.27 12.99
+                      L8.15 6.73
+                      L14.47 7.36
+                      Z"
+                      fill="#43b02a"/>
+                    <path d="M18 12V24M18 24L14 20M18 24L22 20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
                 </svg>
               </span>
             `;
