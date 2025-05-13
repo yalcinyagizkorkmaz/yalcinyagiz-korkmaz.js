@@ -7,7 +7,9 @@ if (!localStorage.getItem('favorites')) {
 // Ebebek Ürün Karuseli
 class ProductCarousel {
     constructor() {
-        this.products = [];
+        this.products = [
+            // ... elle ürünler ...
+        ];
         this.favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         this.carouselContainer = null;
         this.init();
@@ -32,121 +34,18 @@ class ProductCarousel {
     }
 
     async fetchProducts() {
-        // Önce localStorage'dan kontrol et
-        const cachedProducts = localStorage.getItem('products');
-        if (cachedProducts) {
-            this.products = JSON.parse(cachedProducts);
-            return;
-        }
-
-        // MOCK DATA (örnek veri)
-        this.products = [
-            {
-                id: 1,
-                name: "Dolu - Elektrikli 12 V Akülü Araba Uzaktan Kumandalı #7316R",
-                image: "https://cdn.dsmcdn.com/ty1046/product/media/images/20231101/10/340857206/100000044635964_1_org.jpg",
-                price: 7349.30,
-                original_price: 10499.00,
-                slug: "dolu-akulu-araba-gri",
-                rating: 4.0,
-                reviewCount: 37,
-                label: "SADECE BEBEK"
-            },
-            {
-                id: 2,
-                name: "Baby Toys - Vento 12 V Akülü Araba Uzaktan Kumandalı 472 Kırmızı",
-                image: "https://cdn.dsmcdn.com/ty1046/product/media/images/20231101/10/340857206/100000044635965_1_org.jpg",
-                price: 13999.00,
-                original_price: 13999.00,
-                slug: "babytoys-akulu-araba-kirmizi",
-                rating: 4.8,
-                reviewCount: 50,
-                label: "SADECE BEBEK"
-            },
-            {
-                id: 3,
-                name: "Berg - Biky Buzzy Nitro Gri-Kırmızı",
-                image: "https://cdn.dsmcdn.com/ty1046/product/media/images/20231101/10/340857206/100000044635966_1_org.jpg",
-                price: 7999.00,
-                original_price: 7999.00,
-                slug: "berg-biky-buzzy-nitro",
-                rating: 5.0,
-                reviewCount: 21
-            },
-            {
-                id: 4,
-                name: "Baby Toys - Sevimli İlk Arabam Mavi",
-                image: "https://cdn.dsmcdn.com/ty1046/product/media/images/20231101/10/340857206/100000044635967_1_org.jpg",
-                price: 479.99,
-                original_price: 479.99,
-                slug: "babytoys-sevimli-ilk-arabam",
-                rating: 4.9,
-                reviewCount: 102,
-                label: "ÇOK SATAN\nYILDIZ ÜRÜN"
-            },
-            {
-                id: 5,
-                name: "Clementoni - Baby - Bebek Hayvanlar Çiftliği",
-                image: "https://cdn.dsmcdn.com/ty1046/product/media/images/20231101/10/340857206/100000044635968_1_org.jpg",
-                price: 1299.99,
-                original_price: 1299.99,
-                slug: "clementoni-bebek-hayvanlar-ciftligi",
-                rating: 3.0,
-                reviewCount: 8
-            },
-            {
-                id: 6,
-                name: "Fisher Price - Eğitici Köpekçik",
-                image: "https://cdn.dsmcdn.com/ty1046/product/media/images/20231101/10/340857206/100000044635969_1_org.jpg",
-                price: 399.99,
-                original_price: 499.99,
-                slug: "fisher-price-egitici-kopekcik",
-                rating: 4.7,
-                reviewCount: 65,
-                label: "YENİ"
-            },
-            {
-                id: 7,
-                name: "Chicco - Mama Sandalyesi",
-                image: "https://cdn.dsmcdn.com/ty1046/product/media/images/20231101/10/340857206/100000044635970_1_org.jpg",
-                price: 899.99,
-                original_price: 1099.99,
-                slug: "chicco-mama-sandalyesi",
-                rating: 4.5,
-                reviewCount: 42
-            },
-            {
-                id: 8,
-                name: "Lego Duplo - İlk Arabam",
-                image: "https://cdn.dsmcdn.com/ty1046/product/media/images/20231101/10/340857206/100000044635971_1_org.jpg",
-                price: 599.99,
-                original_price: 699.99,
-                slug: "lego-duplo-ilk-arabam",
-                rating: 4.9,
-                reviewCount: 88
-            },
-            {
-                id: 9,
-                name: "Babyjem - Bebek Telsizi",
-                image: "https://cdn.dsmcdn.com/ty1046/product/media/images/20231101/10/340857206/100000044635972_1_org.jpg",
-                price: 299.99,
-                original_price: 349.99,
-                slug: "babyjem-bebek-telsizi",
-                rating: 4.2,
-                reviewCount: 19
-            },
-            {
-                id: 10,
-                name: "Wee Baby - Cam Biberon",
-                image: "https://cdn.dsmcdn.com/ty1046/product/media/images/20231101/10/340857206/100000044635973_1_org.jpg",
-                price: 89.99,
-                original_price: 99.99,
-                slug: "wee-baby-cam-biberon",
-                rating: 4.6,
-                reviewCount: 33
+        try {
+            const response = await fetch('https://gist.githubusercontent.com/sevindi/8bcbde9f02c1d4abe112809c974e1f49/raw/9bf93b58df623a9b16f1db721cd0a7a539296cf0/products.json');
+            if (!response.ok) {
+                throw new Error('Network response was not OK');
             }
-        ];
-        localStorage.setItem('products', JSON.stringify(this.products));
+            const data = await response.json();
+            this.products = data;
+            localStorage.setItem('products', JSON.stringify(this.products));
+        } catch (error) {
+            console.error('Hata oluştu:', error);
+            this.products = [];
+        }
     }
 
     createCarousel() {
@@ -261,7 +160,7 @@ class ProductCarousel {
 
         // Ürün resmi
         const image = document.createElement('img');
-        image.src = product.image;
+        image.src = product.img;
         image.alt = product.name;
         image.style.width = '100%';
         image.style.height = '180px';
@@ -271,8 +170,7 @@ class ProductCarousel {
 
         // Ürün başlığı (marka bold, ürün adı normal)
         const title = document.createElement('h3');
-        const [brand, ...rest] = product.name.split(' - ');
-        title.innerHTML = `<span style="font-weight:700;">${brand}</span> - <span style="font-weight:400;">${rest.join(' - ')}</span>`;
+        title.innerHTML = `<span style="font-weight:700;">${product.brand}</span> - <span style="font-weight:400;">${product.name}</span>`;
         title.style.fontSize = '18px';
         title.style.fontWeight = '400';
         title.style.color = '#444';
