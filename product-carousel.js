@@ -18,7 +18,7 @@ class ProductCarousel {
     async init() {
         // Sadece ana sayfada çalıştığını kontrol et
         const path = window.location && window.location.pathname;
-        if (!(path === '/')) {
+        if (!(path === '/' || path === '/anasayfa')) {
             console.log('yanlış sayfa');
             return;
         }
@@ -548,6 +548,23 @@ const styles = `
         min-width: 240px;
         max-width: 240px;
         flex: 0 0 240px;
+        box-sizing: border-box;
+    }
+    .carousel-area,
+    .products-container {
+        width: 1248px;
+        max-width: 1248px;
+        gap: 12px;
+        padding: 0;
+        margin: 0 auto;
+        box-sizing: border-box;
+        justify-content: flex-start;
+    }
+    .product-card {
+        min-width: 240px;
+        max-width: 240px;
+        flex: 0 0 240px;
+        margin: 0;
         box-sizing: border-box;
     }
     .carousel-area {
