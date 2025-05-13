@@ -85,11 +85,11 @@ class ProductCarousel {
 
         const leftArrow = document.createElement('button');
         leftArrow.className = 'carousel-arrow left';
-        leftArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M24 28L16 20L24 12" stroke="#e99100" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+        leftArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M24 28L16 20L24 12" stroke="#e99100" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
         const rightArrow = document.createElement('button');
         rightArrow.className = 'carousel-arrow right';
-        rightArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M16 12L24 20L16 28" stroke="#e99100" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+        rightArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M16 12L24 20L16 28" stroke="#e99100" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
         arrowsContainer.appendChild(leftArrow);
         arrowsContainer.appendChild(rightArrow);
@@ -102,12 +102,12 @@ class ProductCarousel {
         // Ok event listener'ları
         leftArrow.addEventListener('click', () => {
             const products = carouselArea.querySelector('.products-container');
-            products.scrollBy({ left: -(240 * 5 + 12 * 4), behavior: 'smooth' });
+            products.scrollBy({ left: -(240 + 12), behavior: 'smooth' });
         });
 
         rightArrow.addEventListener('click', () => {
             const products = carouselArea.querySelector('.products-container');
-            products.scrollBy({ left: 240 * 5 + 12 * 4, behavior: 'smooth' });
+            products.scrollBy({ left: 240 + 12, behavior: 'smooth' });
         });
     }
 
@@ -124,11 +124,12 @@ class ProductCarousel {
         card.style.border = '1px solid #e6e6e6';
         card.style.padding = '24px 16px 16px 16px';
         card.style.margin = '0';
-        card.style.minHeight = '489.99px';
+        card.style.minHeight = '550px';
         card.style.minWidth = '240px';
         card.style.maxWidth = '240px';
         card.style.flex = '0 0 240px';
         card.style.borderRadius = '18px';
+        card.style.height = '550px';
 
         // Etiket (varsa)
         if (product.label) {
@@ -291,11 +292,11 @@ class ProductCarousel {
             // İndirimli fiyat
             const price = document.createElement('span');
             price.style.display = 'inline-block';
-            price.style.fontSize = '18px';
+            price.style.fontSize = '24px';
             price.style.fontWeight = '700';
             price.style.color = '#43b02a';
             price.style.marginTop = '4px';
-            price.innerHTML = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} <span style=\"font-size:13px;vertical-align:middle;\">TL</span>`;
+            price.innerHTML = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} <span style=\"font-size:16px;vertical-align:middle;\">TL</span>`;
             leftBlock.appendChild(price);
 
             // Sağ blok: İndirim oranı
@@ -313,8 +314,8 @@ class ProductCarousel {
             discountDiv.style.display = 'flex';
             discountDiv.style.alignItems = 'center';
             discountDiv.style.whiteSpace = 'nowrap';
-            discountDiv.style.marginLeft = '2px';
-            discountDiv.innerHTML = `%${discount} <span style=\"display:inline-flex;align-items:center;background:#43b02a;color:#fff;border-radius:50%;width:22px;height:22px;justify-content:center;margin-left:2px;\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 16V8M12 16L8 12M12 16L16 12\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>`;
+            discountDiv.style.marginLeft = '0px';
+            discountDiv.innerHTML = `%${discount} <span style=\"display:inline-flex;align-items:center;background:#43b02a;color:#fff;border-radius:50%;width:20px;height:20px;justify-content:center;margin-left:0px;\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 16V8M12 16L8 12M12 16L16 12\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>`;
             rightBlock.appendChild(discountDiv);
 
             priceBlock.appendChild(leftBlock);
@@ -324,7 +325,7 @@ class ProductCarousel {
             // İndirim yoksa sadece fiyatı göster
             const price = document.createElement('span');
             price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
-            price.style.fontSize = '16px';
+            price.style.fontSize = '20px';
             price.style.fontWeight = '700';
             price.style.color = '#888';
             priceContainer.appendChild(price);
@@ -550,17 +551,11 @@ const styles = `
         box-sizing: border-box;
     }
     .carousel-area {
-        width: 100%;
-        max-width: 1600px;
-        height: 729px;
+        width: 1248px;
+        max-width: 1248px;
+        padding: 0;
         margin: 0 auto;
-        padding: 0 24px;
-        position: relative;
         box-sizing: border-box;
-        overflow: visible;
-        background: #fff;
-        border-bottom-left-radius: 48px;
-        border-bottom-right-radius: 48px;
     }
     .product-card {
         min-width: 240px;
@@ -572,8 +567,8 @@ const styles = `
         border: 1px solid #f3e7d9;
         padding: 16px 12px 12px 12px;
         margin: 0;
-        min-height: 489.99px;
-        height: 489.99px;
+        min-height: 550px;
+        height: 550px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -682,6 +677,8 @@ const styles = `
             min-width: 150px;
             max-width: 150px;
             flex: 0 0 150px;
+            min-height: 350px;
+            height: 350px;
         }
         .products-container {
             gap: 8px;
@@ -693,6 +690,8 @@ const styles = `
             min-width: 100px;
             max-width: 100px;
             flex: 0 0 100px;
+            min-height: 220px;
+            height: 220px;
         }
         .product-card img { height: 90px; }
         .product-carousel { padding: 0 2px; }
@@ -1060,7 +1059,7 @@ async function renderCarousel() {
     leftArrow.className = 'swiper-prev';
     leftArrow.type = 'button';
     leftArrow.setAttribute('aria-label', 'back');
-    leftArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M24 28L16 20L24 12" stroke="#e99100" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    leftArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M24 28L16 20L24 12" stroke="#e99100" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     leftArrow.style.marginRight = '4px';
 
     // Sağ ok (button.swiper-next)
@@ -1068,7 +1067,7 @@ async function renderCarousel() {
     rightArrow.className = 'swiper-next';
     rightArrow.type = 'button';
     rightArrow.setAttribute('aria-label', 'next');
-    rightArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M16 12L24 20L16 28" stroke="#e99100" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    rightArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M16 12L24 20L16 28" stroke="#e99100" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     rightArrow.style.marginLeft = '4px';
 
     // Ürünler container
