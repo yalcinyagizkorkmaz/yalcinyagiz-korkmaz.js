@@ -102,12 +102,12 @@ class ProductCarousel {
         // Ok event listener'ları
         leftArrow.addEventListener('click', () => {
             const products = carouselArea.querySelector('.products-container');
-            products.scrollBy({ left: -284.66, behavior: 'smooth' });
+            products.scrollBy({ left: -(240 * 5 + 12 * 4), behavior: 'smooth' });
         });
 
         rightArrow.addEventListener('click', () => {
             const products = carouselArea.querySelector('.products-container');
-            products.scrollBy({ left: 284.66, behavior: 'smooth' });
+            products.scrollBy({ left: 240 * 5 + 12 * 4, behavior: 'smooth' });
         });
     }
 
@@ -125,9 +125,9 @@ class ProductCarousel {
         card.style.padding = '24px 16px 16px 16px';
         card.style.margin = '0';
         card.style.minHeight = '489.99px';
-        card.style.minWidth = '284.66px';
-        card.style.maxWidth = '284.66px';
-        card.style.flex = '0 0 284.66px';
+        card.style.minWidth = '240px';
+        card.style.maxWidth = '240px';
+        card.style.flex = '0 0 240px';
         card.style.borderRadius = '18px';
 
         // Etiket (varsa)
@@ -282,7 +282,7 @@ class ProductCarousel {
             // Eski fiyat
             const originalPrice = document.createElement('span');
             originalPrice.textContent = `${product.original_price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
-            originalPrice.style.fontSize = '24px';
+            originalPrice.style.fontSize = '16px';
             originalPrice.style.color = '#888';
             originalPrice.style.textDecoration = 'line-through';
             originalPrice.style.fontWeight = 'bold';
@@ -290,11 +290,12 @@ class ProductCarousel {
 
             // İndirimli fiyat
             const price = document.createElement('span');
-            price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
-            price.style.fontSize = '32px';
+            price.style.display = 'inline-block';
+            price.style.fontSize = '18px';
             price.style.fontWeight = '700';
             price.style.color = '#43b02a';
             price.style.marginTop = '4px';
+            price.innerHTML = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} <span style=\"font-size:13px;vertical-align:middle;\">TL</span>`;
             leftBlock.appendChild(price);
 
             // Sağ blok: İndirim oranı
@@ -307,11 +308,13 @@ class ProductCarousel {
             const discount = Math.round(100 - (product.price / product.original_price) * 100);
             const discountDiv = document.createElement('span');
             discountDiv.style.fontWeight = 'bold';
-            discountDiv.style.fontSize = '32px';
+            discountDiv.style.fontSize = '20px';
             discountDiv.style.color = '#43b02a';
             discountDiv.style.display = 'flex';
             discountDiv.style.alignItems = 'center';
-            discountDiv.innerHTML = `%${discount} <span style="display:inline-flex;align-items:center;background:#43b02a;color:#fff;border-radius:50%;width:32px;height:32px;justify-content:center;margin-left:4px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 16V8M12 16L8 12M12 16L16 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+            discountDiv.style.whiteSpace = 'nowrap';
+            discountDiv.style.marginLeft = '2px';
+            discountDiv.innerHTML = `%${discount} <span style=\"display:inline-flex;align-items:center;background:#43b02a;color:#fff;border-radius:50%;width:22px;height:22px;justify-content:center;margin-left:2px;\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 16V8M12 16L8 12M12 16L16 12\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>`;
             rightBlock.appendChild(discountDiv);
 
             priceBlock.appendChild(leftBlock);
@@ -321,7 +324,7 @@ class ProductCarousel {
             // İndirim yoksa sadece fiyatı göster
             const price = document.createElement('span');
             price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
-            price.style.fontSize = '32px';
+            price.style.fontSize = '16px';
             price.style.fontWeight = '700';
             price.style.color = '#888';
             priceContainer.appendChild(price);
@@ -541,9 +544,9 @@ const styles = `
         display: none;
     }
     .product-card {
-        min-width: 284.66px;
-        max-width: 284.66px;
-        flex: 0 0 284.66px;
+        min-width: 240px;
+        max-width: 240px;
+        flex: 0 0 240px;
         box-sizing: border-box;
     }
     .carousel-area {
@@ -560,9 +563,9 @@ const styles = `
         border-bottom-right-radius: 48px;
     }
     .product-card {
-        min-width: 284.66px;
-        max-width: 284.66px;
-        flex: 0 0 284.66px;
+        min-width: 240px;
+        max-width: 240px;
+        flex: 0 0 240px;
         border-radius: 18px;
         background: #fff;
         box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
@@ -676,9 +679,9 @@ const styles = `
     }
     @media (max-width: 1100px) {
         .product-card {
-            min-width: 180px;
-            max-width: 180px;
-            flex: 0 0 180px;
+            min-width: 150px;
+            max-width: 150px;
+            flex: 0 0 150px;
         }
         .products-container {
             gap: 8px;
@@ -687,9 +690,9 @@ const styles = `
     }
     @media (max-width: 700px) {
         .product-card {
-            min-width: 120px;
-            max-width: 120px;
-            flex: 0 0 120px;
+            min-width: 100px;
+            max-width: 100px;
+            flex: 0 0 100px;
         }
         .product-card img { height: 90px; }
         .product-carousel { padding: 0 2px; }
@@ -720,8 +723,8 @@ const styles = `
     .title-primary {
         text-align: left;
         color: #e99100;
-        font-size: 2.5rem;
-        font-weight: 700;
+        font-size: 1.3rem;
+        font-weight: 800;
         margin-bottom: 32px;
         margin-left: 0;
         padding-left: 0;
@@ -1172,7 +1175,7 @@ async function renderCarousel() {
         // Fiyat
         const price = document.createElement('div');
         price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
-        price.style.fontSize = '32px';
+        price.style.fontSize = '20px';
         price.style.fontWeight = '700';
         price.style.color = '#888';
         price.style.display = 'block';
@@ -1422,7 +1425,7 @@ yeniKart.appendChild(ratingRow);
 // Fiyat
 const price = document.createElement('div');
 price.textContent = `0,00 TL`;
-price.style.fontSize = '32px';
+price.style.fontSize = '20px';
 price.style.fontWeight = '700';
 price.style.color = '#888';
 price.style.display = 'block';
