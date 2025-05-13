@@ -85,11 +85,11 @@ class ProductCarousel {
 
         const leftArrow = document.createElement('button');
         leftArrow.className = 'carousel-arrow left';
-        leftArrow.innerHTML = '&#8592;';
+        leftArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M24 28L16 20L24 12" stroke="#e99100" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
         const rightArrow = document.createElement('button');
         rightArrow.className = 'carousel-arrow right';
-        rightArrow.innerHTML = '&#8594;';
+        rightArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M16 12L24 20L16 28" stroke="#e99100" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
         arrowsContainer.appendChild(leftArrow);
         arrowsContainer.appendChild(rightArrow);
@@ -149,8 +149,7 @@ class ProductCarousel {
             label.style.padding = '4px 8px';
             label.style.zIndex = '3';
             label.style.lineHeight = '1.2';
-            label.style.boxShadow = '0 2px 8px 0 rgba(255,152,0,0.08)';
-            card.appendChild(label);
+            label.style.boxShadow = '0 2px 8px 0 rgba(67,176,42,0.08)';
         }
         // AR etiketi (varsa)
         if (product.ar) {
@@ -462,16 +461,23 @@ const styles = `
         transform: translateY(-50%);
         background: #fff6ed;
         border-radius: 50%;
-        width: 48px;
-        height: 48px;
+        width: 56px;
+        height: 56px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 32px;
+        font-size: 28px;
         color: #e99100;
         cursor: pointer;
-        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.06);
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+        border: none;
         z-index: 10;
+        transition: background 0.2s, color 0.2s;
+    }
+    .carousel-arrow svg {
+        width: 28px;
+        height: 28px;
+        display: block;
     }
     .carousel-arrow.left { 
         left: 12px; 
@@ -712,16 +718,23 @@ const styles = `
         transform: translateY(-50%);
         background: #fff6ed;
         border-radius: 50%;
-        width: 48px;
-        height: 48px;
+        width: 56px;
+        height: 56px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 32px;
+        font-size: 28px;
         color: #e99100;
         cursor: pointer;
-        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.06);
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+        border: none;
         z-index: 10;
+        transition: background 0.2s, color 0.2s;
+    }
+    .carousel-arrow svg {
+        width: 28px;
+        height: 28px;
+        display: block;
     }
     .carousel-arrow.left { 
         left: 12px; 
@@ -963,7 +976,7 @@ async function renderCarousel() {
     leftArrow.className = 'swiper-prev';
     leftArrow.type = 'button';
     leftArrow.setAttribute('aria-label', 'back');
-    leftArrow.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#fff6ed"/><path d="M14.5 7L10 12L14.5 17" stroke="#e99100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    leftArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M24 28L16 20L24 12" stroke="#e99100" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     leftArrow.style.marginRight = '4px';
 
     // Sağ ok (button.swiper-next)
@@ -971,7 +984,7 @@ async function renderCarousel() {
     rightArrow.className = 'swiper-next';
     rightArrow.type = 'button';
     rightArrow.setAttribute('aria-label', 'next');
-    rightArrow.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#fff6ed"/><path d="M9.5 7L14 12L9.5 17" stroke="#e99100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    rightArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M16 12L24 20L16 28" stroke="#e99100" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     rightArrow.style.marginLeft = '4px';
 
     // Ürünler container
@@ -1019,7 +1032,7 @@ async function renderCarousel() {
             label.style.padding = '6px 12px';
             label.style.zIndex = '3';
             label.style.lineHeight = '1.2';
-            label.style.boxShadow = '0 2px 8px 0 rgba(255,152,0,0.08)';
+            label.style.boxShadow = '0 2px 8px 0 rgba(67,176,42,0.08)';
             card.appendChild(label);
         }
         // AR etiketi (varsa)
@@ -1343,7 +1356,7 @@ label.style.borderRadius = '12px';
 label.style.padding = '6px 12px';
 label.style.zIndex = '3';
 label.style.lineHeight = '1.2';
-label.style.boxShadow = '0 2px 8px 0 rgba(255,152,0,0.08)';
+label.style.boxShadow = '0 2px 8px 0 rgba(67,176,42,0.08)';
 yeniKart.appendChild(label);
 
 // Favori butonu
