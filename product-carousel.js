@@ -232,8 +232,8 @@ class ProductCarousel {
         ratingRow.style.display = 'flex';
         ratingRow.style.alignItems = 'center';
         ratingRow.style.gap = '2px';
-        // Yıldızlar (puan varsa ona göre, yoksa 5 yıldız dolu)
-        const rating = product.rating || 5;
+        // Yıldızlar (puan varsa ona göre, yoksa random yıldız)
+        const rating = product.rating || Math.floor(Math.random() * 5) + 1;
         for (let i = 1; i <= 5; i++) {
             const star = document.createElement('span');
             star.textContent = '★';
@@ -241,9 +241,9 @@ class ProductCarousel {
             star.style.fontSize = '16px';
             ratingRow.appendChild(star);
         }
-        // Yorum sayısı (varsa)
+        // Yorum sayısı (yıldız sayısını göster)
         const review = document.createElement('span');
-        review.textContent = `(${product.reviewCount || 0})`;
+        review.textContent = `(${rating})`;
         review.style.fontSize = '13px';
         review.style.color = '#888';
         review.style.marginLeft = '6px';
@@ -436,10 +436,10 @@ const styles = `
         z-index: 10;
     }
     .carousel-arrow.left { 
-        left: -72px; 
+        left: 12px; 
     }
     .carousel-arrow.right { 
-        right: -72px; 
+        right: 12px; 
     }
     .carousel-wrapper {
         position: relative;
@@ -521,6 +521,7 @@ const styles = `
         padding: 16px 12px 12px 12px;
         margin: 0;
         min-height: 489.99px;
+        height: 489.99px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -683,10 +684,10 @@ const styles = `
         z-index: 10;
     }
     .carousel-arrow.left { 
-        left: -24px; 
+        left: 12px; 
     }
     .carousel-arrow.right { 
-        right: -24px; 
+        right: 12px; 
     }
     .add-to-cart-btn {
         width: 100%;
@@ -733,6 +734,17 @@ const styles = `
         }
         .title-primary {
             font-size: 1.5rem;
+        }
+        .carousel-arrow {
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+        }
+        .carousel-arrow.left {
+            left: 8px;
+        }
+        .carousel-arrow.right {
+            right: 8px;
         }
     }
     .container {
@@ -1087,8 +1099,8 @@ async function renderCarousel() {
         ratingRow.style.display = 'flex';
         ratingRow.style.alignItems = 'center';
         ratingRow.style.gap = '2px';
-        // Yıldızlar (puan varsa ona göre, yoksa 5 yıldız dolu)
-        const rating = product.rating || 5;
+        // Yıldızlar (puan varsa ona göre, yoksa random yıldız)
+        const rating = product.rating || Math.floor(Math.random() * 5) + 1;
         for (let i = 1; i <= 5; i++) {
             const star = document.createElement('span');
             star.textContent = '★';
@@ -1096,9 +1108,9 @@ async function renderCarousel() {
             star.style.fontSize = '16px';
             ratingRow.appendChild(star);
         }
-        // Yorum sayısı (varsa)
+        // Yorum sayısı (yıldız sayısını göster)
         const review = document.createElement('span');
-        review.textContent = `(${product.reviewCount || 0})`;
+        review.textContent = `(${rating})`;
         review.style.fontSize = '13px';
         review.style.color = '#888';
         review.style.marginLeft = '6px';
@@ -1254,10 +1266,10 @@ yeniKart.style.boxShadow = '0 2px 8px 0 rgba(0,0,0,0.04)';
 yeniKart.style.border = '1px solid #e6e6e6';
 yeniKart.style.padding = '24px 16px 16px 16px';
 yeniKart.style.margin = '0';
-yeniKart.style.minHeight = '489.99px';
-yeniKart.style.minWidth = '284.66px';
-yeniKart.style.maxWidth = '284.66px';
-yeniKart.style.flex = '0 0 284.66px';
+yeniKart.style.minHeight = '400px';
+yeniKart.style.minWidth = '240px';
+yeniKart.style.maxWidth = '240px';
+yeniKart.style.flex = '0 0 240px';
 yeniKart.style.borderRadius = '18px';
 
 // Etiket
