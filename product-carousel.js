@@ -529,17 +529,22 @@ const styles = `
     .products-container {
         display: flex;
         overflow-x: auto;
-        gap: 12px;
         flex-wrap: nowrap;
-        padding: 0 32px;
         width: 100%;
-        height: 100%;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
         box-sizing: border-box;
+        gap: 12px;
+        padding: 0 32px;
+        scrollbar-width: thin;
+        -ms-overflow-style: none;
     }
     .products-container::-webkit-scrollbar {
         display: none;
+    }
+    .product-card {
+        min-width: 284.66px;
+        max-width: 284.66px;
+        flex: 0 0 284.66px;
+        box-sizing: border-box;
     }
     .carousel-area {
         width: 100%;
@@ -668,6 +673,36 @@ const styles = `
         .product-card img { height: 90px; }
         .product-carousel { padding: 0 2px; }
         .carousel-bg { border-radius: 12px; }
+    }
+    @media (max-width: 1100px) {
+        .product-card {
+            min-width: 180px;
+            max-width: 180px;
+            flex: 0 0 180px;
+        }
+        .products-container {
+            gap: 8px;
+            padding: 0 8px;
+        }
+    }
+    @media (max-width: 700px) {
+        .product-card {
+            min-width: 120px;
+            max-width: 120px;
+            flex: 0 0 120px;
+        }
+        .product-card img { height: 90px; }
+        .product-carousel { padding: 0 2px; }
+        .carousel-bg { border-radius: 12px; }
+        .products-container {
+            gap: 4px;
+            padding: 0 2px;
+        }
+        .container, .carousel-area {
+            padding: 0 2px !important;
+            max-width: 100vw !important;
+            width: 100vw !important;
+        }
     }
     .carousel-main-wrapper {
         width: 100%;
@@ -807,6 +842,52 @@ const styles = `
         padding: 0 24px;
         box-sizing: border-box;
         position: relative;
+    }
+    @media (max-width: 700px) {
+        .carousel-area {
+            padding: 0 2px;
+        }
+        .products-container {
+            gap: 4px;
+            padding: 0 2px;
+        }
+        .product-card {
+            min-width: 120px;
+            max-width: 120px;
+            flex: 0 0 120px;
+            min-height: 160px;
+            height: auto;
+        }
+        .carousel-arrow {
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+            position: static !important;
+            margin: 12px auto !important;
+            display: block !important;
+            transform: none !important;
+        }
+        .carousel-arrow svg {
+            width: 12px;
+            height: 12px;
+        }
+        .title-primary {
+            font-size: 1rem;
+        }
+        .carousel-arrows-container {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            position: static !important;
+            width: 100% !important;
+            max-width: 100vw !important;
+            left: 0 !important;
+            top: 0 !important;
+            height: auto !important;
+            transform: none !important;
+            pointer-events: auto !important;
+            margin-bottom: 8px;
+        }
     }
 `;
 
@@ -1072,22 +1153,16 @@ async function renderCarousel() {
         const ratingRow = document.createElement('div');
         ratingRow.style.display = 'flex';
         ratingRow.style.alignItems = 'center';
-        ratingRow.style.gap = '2px';
-        ratingRow.style.justifyContent = 'flex-start';
-        ratingRow.style.width = '100%';
-        ratingRow.style.marginTop = '16px';
-        // Yıldızlar (puan varsa ona göre, yoksa random yıldız)
-        const rating = product.rating || Math.floor(Math.random() * 5) + 1;
+        ratingRow.style.gap = '4px';
         for (let i = 1; i <= 5; i++) {
             const star = document.createElement('span');
             star.innerHTML = '★';
-            star.style.color = i <= rating ? '#FFD600' : '#eee';
+            star.style.color = '#FFD600';
             star.style.fontSize = '20px';
             ratingRow.appendChild(star);
         }
-        // Yorum sayısı (yıldız sayısını göster)
         const review = document.createElement('span');
-        review.textContent = `(${rating})`;
+        review.textContent = `(${product.rating || Math.floor(Math.random() * 5) + 1})`;
         review.style.fontSize = '16px';
         review.style.color = '#888';
         review.style.marginLeft = '8px';
@@ -1095,87 +1170,15 @@ async function renderCarousel() {
         card.appendChild(ratingRow);
 
         // Fiyat
-        const priceContainer = document.createElement('div');
-        priceContainer.style.display = 'flex';
-        priceContainer.style.alignItems = 'center';
-        priceContainer.style.gap = '8px';
-        priceContainer.style.margin = '24px 0 0 0';
-        priceContainer.style.justifyContent = 'flex-start';
-        priceContainer.style.width = '100%';
-
-        let hasDiscount = product.original_price && product.original_price > product.price;
-
-        if (hasDiscount) {
-            // Fiyat kutusunu iki ana bloğa ayır
-            const priceBlock = document.createElement('div');
-            priceBlock.style.display = 'flex';
-            priceBlock.style.alignItems = 'flex-start';
-            priceBlock.style.width = '100%';
-            priceBlock.style.gap = '32px';
-
-            // Sol blok: Eski fiyat
-            const leftBlock = document.createElement('div');
-            leftBlock.style.display = 'flex';
-            leftBlock.style.flexDirection = 'column';
-            leftBlock.style.alignItems = 'flex-start';
-            leftBlock.style.justifyContent = 'flex-start';
-            leftBlock.style.minWidth = '80px';
-
-            const originalPrice = document.createElement('span');
-            originalPrice.textContent = `${product.original_price.toLocaleString('tr-TR', {minimumFractionDigits: 2})}`;
-            originalPrice.style.fontSize = '28px';
-            originalPrice.style.color = '#888';
-            originalPrice.style.textDecoration = 'line-through';
-            originalPrice.style.fontWeight = 'bold';
-            leftBlock.appendChild(originalPrice);
-
-            const tl = document.createElement('span');
-            tl.textContent = 'TL';
-            tl.style.fontSize = '28px';
-            tl.style.color = '#888';
-            tl.style.textDecoration = 'line-through';
-            tl.style.fontWeight = 'bold';
-            leftBlock.appendChild(tl);
-
-            // Sağ blok: İndirim oranı ve yeni fiyat
-            const rightBlock = document.createElement('div');
-            rightBlock.style.display = 'flex';
-            rightBlock.style.flexDirection = 'column';
-            rightBlock.style.alignItems = 'flex-start';
-            rightBlock.style.justifyContent = 'flex-start';
-
-            // İndirim oranı
-            const discount = Math.round(100 - (product.price / product.original_price) * 100);
-            const discountDiv = document.createElement('span');
-            discountDiv.style.fontWeight = 'bold';
-            discountDiv.style.fontSize = '32px';
-            discountDiv.style.color = '#43b02a';
-            discountDiv.style.display = 'flex';
-            discountDiv.style.alignItems = 'center';
-            discountDiv.innerHTML = `%${discount} <span style="display:inline-flex;align-items:center;background:#43b02a;color:#fff;border-radius:50%;width:32px;height:32px;justify-content:center;margin-left:4px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 16V8M12 16L8 12M12 16L16 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
-            rightBlock.appendChild(discountDiv);
-
-            // Yeni fiyat
-            const price = document.createElement('span');
-            price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
-            price.style.fontSize = '40px';
-            price.style.fontWeight = '700';
-            price.style.color = '#888';
-            price.style.marginTop = '8px';
-            rightBlock.appendChild(price);
-
-            priceBlock.appendChild(leftBlock);
-            priceBlock.appendChild(rightBlock);
-            priceContainer.appendChild(priceBlock);
-        } else {
-            // İndirim yoksa sadece fiyatı göster
-            const price = document.createElement('span');
-            price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
-            price.style.fontSize = '32px';
-            price.style.fontWeight = '700';
-            price.style.color = '#888';
-            priceContainer.appendChild(price);
-        }
+        const price = document.createElement('div');
+        price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
+        price.style.fontSize = '32px';
+        price.style.fontWeight = '700';
+        price.style.color = '#888';
+        price.style.display = 'block';
+        price.style.marginTop = '4px';
+        price.style.background = '#fff';
+        card.appendChild(price);
 
         // Favori butonu
         const favoriteBtn = document.createElement('button');
