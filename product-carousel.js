@@ -270,7 +270,7 @@ class ProductCarousel {
             priceBlock.style.display = 'flex';
             priceBlock.style.alignItems = 'flex-start';
             priceBlock.style.width = '100%';
-            priceBlock.style.gap = '32px';
+            priceBlock.style.gap = '8px';
 
             // Sol blok: Eski fiyat ve indirimli fiyat alt alta
             const leftBlock = document.createElement('div');
@@ -296,6 +296,7 @@ class ProductCarousel {
             price.style.fontWeight = '700';
             price.style.color = '#43b02a';
             price.style.marginTop = '4px';
+            price.style.marginBottom = '0';
             price.innerHTML = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} <span style=\"font-size:16px;vertical-align:middle;\">TL</span>`;
             leftBlock.appendChild(price);
 
@@ -307,15 +308,35 @@ class ProductCarousel {
             rightBlock.style.justifyContent = 'flex-start';
 
             const discount = Math.round(100 - (product.price / product.original_price) * 100);
-            const discountDiv = document.createElement('span');
+            const discountDiv = document.createElement('div');
             discountDiv.style.fontWeight = 'bold';
-            discountDiv.style.fontSize = '20px';
-            discountDiv.style.color = '#43b02a';
+            discountDiv.style.fontSize = '32px';
+            discountDiv.style.color = '#6ab944';
             discountDiv.style.display = 'flex';
             discountDiv.style.alignItems = 'center';
-            discountDiv.style.whiteSpace = 'nowrap';
-            discountDiv.style.marginLeft = '0px';
-            discountDiv.innerHTML = `%${discount} <span style=\"display:inline-flex;align-items:center;background:#43b02a;color:#fff;border-radius:50%;width:20px;height:20px;justify-content:center;margin-left:0px;\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 16V8M12 16L8 12M12 16L16 12\" stroke=\"white\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>`;
+            discountDiv.style.gap = '8px';
+            discountDiv.style.justifyContent = 'flex-start';
+            discountDiv.style.marginLeft = '0';
+            discountDiv.style.marginRight = 'auto';
+            discountDiv.style.marginTop = '-2px';
+            discountDiv.innerHTML = `
+              <span style="font-weight:bold;font-size:32px;color:#6ab944;">%${discount}</span>
+              <span style="
+                display:inline-flex;
+                align-items:center;
+                background:#6ab944;
+                color:#fff;
+                border-radius:50%;
+                width:36px;
+                height:36px;
+                justify-content:center;
+                margin-left:0px;
+              ">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 16V8M12 16L8 12M12 16L16 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            `;
             rightBlock.appendChild(discountDiv);
 
             priceBlock.appendChild(leftBlock);
