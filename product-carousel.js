@@ -210,7 +210,7 @@ class ProductCarousel {
         image.src = product.img;
         image.alt = product.name;
         image.style.width = '100%';
-        image.style.height = '140px';
+        image.style.height = '220px';
         image.style.objectFit = 'contain';
         image.style.margin = '24px 0 12px 0';
         card.appendChild(image);
@@ -462,7 +462,7 @@ const styles = `
     }
     .carousel-arrow {
         position: absolute;
-        top: 50%;
+        top: 40%;
         transform: translateY(-50%);
         background: #fff6ed;
         border-radius: 50%;
@@ -754,7 +754,7 @@ const styles = `
     }
     .carousel-arrow {
         position: absolute;
-        top: 50%;
+        top: 40%;
         transform: translateY(-50%);
         background: #fff6ed;
         border-radius: 50%;
@@ -1205,7 +1205,7 @@ async function renderCarousel() {
         image.src = product.img;
         image.alt = product.name;
         image.style.width = '100%';
-        image.style.height = '180px';
+        image.style.height = '220px';
         image.style.objectFit = 'contain';
         image.style.margin = '32px 0 16px 0';
         card.appendChild(image);
@@ -1387,7 +1387,7 @@ const image = document.createElement('img');
 image.src = 'https://via.placeholder.com/200x140?text=Yeni+Kart'; // örnek resim
 image.alt = 'Yeni Kart';
 image.style.width = '100%';
-image.style.height = '180px';
+image.style.height = '220px';
 image.style.objectFit = 'contain';
 image.style.margin = '32px 0 16px 0';
 yeniKart.appendChild(image);
