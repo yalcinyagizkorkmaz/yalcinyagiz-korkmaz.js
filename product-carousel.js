@@ -433,8 +433,8 @@ const styles = `
     .carousel-arrow.right { right: 12px; }
     .carousel-arrow:hover { background: #ffe0b2; }
     .product-carousel {
-        width: 100%;
-        max-width: 1200px;
+        width: 720px;
+        height: 679.95px;
         margin: 0 auto;
         padding: 0 15px;
         position: relative;
