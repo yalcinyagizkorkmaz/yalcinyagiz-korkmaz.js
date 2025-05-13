@@ -418,11 +418,12 @@ class ProductCarousel {
         productsContainer.className = 'products-container';
         productsContainer.style.display = 'flex';
         productsContainer.style.overflowX = 'auto';
-        productsContainer.style.gap = '12px';
-        productsContainer.style.padding = '0';
-        productsContainer.style.scrollBehavior = 'smooth';
-        productsContainer.style.background = '#fff';
-        productsContainer.style.setProperty('background', '#fff', 'important');
+        productsContainer.style.gap = '8px';
+        productsContainer.style.padding = '0 !important';
+        productsContainer.style.margin = '0 !important';
+        productsContainer.style.width = '100% !important';
+        productsContainer.style.boxSizing = 'border-box';
+        productsContainer.style.scrollSnapType = 'x mandatory';
 
         // Tüm ürünleri göster
         products.forEach(product => {
@@ -535,19 +536,22 @@ const styles = `
     }
     .products-container {
         display: flex;
-        gap: 12px;
-        padding: 0;
-        margin: 0;
-        width: 100%;
+        gap: 8px;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
         box-sizing: border-box;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory;
     }
     .product-card {
-        flex: 1 1 0;
+        width: calc((100% - 4 * 12px) / 4.8);
+        flex: 0 0 auto;
         min-width: 0;
         max-width: none;
-        width: calc((100% - 4 * 12px) / 5); /* 5 kart ve 4 gap */
-        margin: 0;
+        margin: 0 !important;
         box-sizing: border-box;
+        scroll-snap-align: start;
     }
     .carousel-area {
         width: 100%;
