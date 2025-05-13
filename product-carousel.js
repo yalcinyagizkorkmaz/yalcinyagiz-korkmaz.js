@@ -152,6 +152,38 @@ class ProductCarousel {
             label.style.boxShadow = '0 2px 8px 0 rgba(255,152,0,0.08)';
             card.appendChild(label);
         }
+        // AR etiketi (varsa)
+        if (product.ar) {
+            const arLabel = document.createElement('div');
+            arLabel.textContent = 'AR';
+            arLabel.style.position = 'absolute';
+            arLabel.style.left = '12px';
+            arLabel.style.top = '40px';
+            arLabel.style.background = '#444';
+            arLabel.style.color = '#fff';
+            arLabel.style.fontSize = '11px';
+            arLabel.style.fontWeight = '700';
+            arLabel.style.borderRadius = '8px';
+            arLabel.style.padding = '2px 8px';
+            arLabel.style.zIndex = '3';
+            card.appendChild(arLabel);
+        }
+        // Video etiketi (varsa)
+        if (product.video) {
+            const videoLabel = document.createElement('div');
+            videoLabel.textContent = 'VIDEO';
+            videoLabel.style.position = 'absolute';
+            videoLabel.style.left = '12px';
+            videoLabel.style.top = product.ar ? '64px' : '40px';
+            videoLabel.style.background = '#888';
+            videoLabel.style.color = '#fff';
+            videoLabel.style.fontSize = '11px';
+            videoLabel.style.fontWeight = '700';
+            videoLabel.style.borderRadius = '8px';
+            videoLabel.style.padding = '2px 8px';
+            videoLabel.style.zIndex = '3';
+            card.appendChild(videoLabel);
+        }
 
         // Favori butonu (sağ üst)
         const favoriteBtn = document.createElement('button');
@@ -195,21 +227,75 @@ class ProductCarousel {
         title.style.background = '#fff';
         card.appendChild(title);
 
+        // Yıldız ve yorum satırı
+        const ratingRow = document.createElement('div');
+        ratingRow.style.display = 'flex';
+        ratingRow.style.alignItems = 'center';
+        ratingRow.style.gap = '2px';
+        // Yıldızlar (puan varsa ona göre, yoksa 5 yıldız dolu)
+        const rating = product.rating || 5;
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement('span');
+            star.textContent = '★';
+            star.style.color = i <= rating ? '#FFD600' : '#eee';
+            star.style.fontSize = '16px';
+            ratingRow.appendChild(star);
+        }
+        // Yorum sayısı (varsa)
+        const review = document.createElement('span');
+        review.textContent = `(${product.reviewCount || 0})`;
+        review.style.fontSize = '13px';
+        review.style.color = '#888';
+        review.style.marginLeft = '6px';
+        ratingRow.appendChild(review);
+        card.appendChild(ratingRow);
+
         // Fiyat
+        const priceContainer = document.createElement('div');
+        priceContainer.style.display = 'flex';
+        priceContainer.style.alignItems = 'center';
+        priceContainer.style.gap = '8px';
+        priceContainer.style.margin = '8px 0 0 0';
+
+        let hasDiscount = product.original_price && product.original_price > product.price;
+
+        if (hasDiscount) {
+            // Eski fiyat
+            const originalPrice = document.createElement('span');
+            originalPrice.textContent = `${product.original_price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
+            originalPrice.style.fontSize = '18px';
+            originalPrice.style.color = '#888';
+            originalPrice.style.textDecoration = 'line-through';
+            originalPrice.style.marginRight = '8px';
+            priceContainer.appendChild(originalPrice);
+
+            // İndirim oranı
+            const discount = Math.round(100 - (product.price / product.original_price) * 100);
+            const discountDiv = document.createElement('span');
+            discountDiv.style.fontWeight = 'bold';
+            discountDiv.style.fontSize = '22px';
+            discountDiv.style.color = '#43b02a';
+            discountDiv.style.display = 'flex';
+            discountDiv.style.alignItems = 'center';
+            discountDiv.innerHTML = `%${discount} <span style="display:inline-flex;align-items:center;background:#43b02a;color:#fff;border-radius:50%;width:28px;height:28px;justify-content:center;margin-left:4px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 16V8M12 16L8 12M12 16L16 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+            priceContainer.appendChild(discountDiv);
+        }
+
+        // İndirimli fiyat
         const price = document.createElement('div');
         price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
-        price.style.fontSize = '24px';
+        price.style.fontSize = '32px';
         price.style.fontWeight = '700';
         price.style.color = '#43b02a';
-        price.style.display = 'block';
-        price.style.marginTop = '4px';
-        price.style.background = '#fff';
-        card.appendChild(price);
+        price.style.marginTop = '8px';
+        priceContainer.appendChild(price);
+
+        card.appendChild(priceContainer);
 
         // Sepete Ekle butonu
         const addToCartBtn = document.createElement('button');
         addToCartBtn.textContent = 'Sepete Ekle';
-        addToCartBtn.className = 'add-to-cart-btn';
+        addToCartBtn.className = 'add-to-cart-btn custom-add-to-cart-btn';
         addToCartBtn.style.width = '100%';
         addToCartBtn.style.background = '#fff3e0';
         addToCartBtn.style.color = '#e99100';
@@ -218,10 +304,19 @@ class ProductCarousel {
         addToCartBtn.style.fontWeight = 'bold';
         addToCartBtn.style.fontSize = '16px';
         addToCartBtn.style.padding = '12px 0';
-        addToCartBtn.style.marginTop = '16px';
+        addToCartBtn.style.marginTop = 'auto';
         addToCartBtn.style.cursor = 'pointer';
         addToCartBtn.style.boxShadow = '0 2px 8px 0 rgba(0,0,0,0.04)';
         addToCartBtn.style.background = '#fff';
+        addToCartBtn.style.transition = 'background 0.2s, color 0.2s';
+        addToCartBtn.addEventListener('mouseover', () => {
+            addToCartBtn.style.background = '#ff9800';
+            addToCartBtn.style.color = '#fff';
+        });
+        addToCartBtn.addEventListener('mouseout', () => {
+            addToCartBtn.style.background = '#fff';
+            addToCartBtn.style.color = '#e99100';
+        });
         addToCartBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             alert('Ürün sepete eklendi!');
@@ -288,11 +383,8 @@ class ProductCarousel {
         productsContainer.style.background = '#fff';
         productsContainer.style.setProperty('background', '#fff', 'important');
 
-        // Maksimum 5 ürün göster
-        const limitedProducts = products.slice(0, 5);
-
-        // Kartları ekle
-        limitedProducts.forEach(product => {
+        // Tüm ürünleri göster
+        products.forEach(product => {
             const card = this.createProductCard(product);
             productsContainer.appendChild(card);
         });
@@ -504,21 +596,22 @@ const styles = `
     .favorite-btn:active, .favorite-btn.filled {
         color: #ff9800;
     }
-    .add-to-cart-btn {
-        width: 100%;
-        background: #fff3e0;
-        color: #e99100;
+    .add-to-cart-btn.custom-add-to-cart-btn {
+        background: #fff3e0 !important;
+        color: #e99100 !important;
         border: none;
-        border-radius: 12px;
+        border-radius: 16px;
         font-weight: bold;
-        font-size: 15px;
-        padding: 10px 0;
+        font-size: 16px;
+        padding: 12px 0;
         margin-top: auto;
         cursor: pointer;
-        transition: background 0.2s;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+        transition: background 0.2s, color 0.2s;
     }
-    .add-to-cart-btn:hover {
-        background: #ffe0b2;
+    .add-to-cart-btn.custom-add-to-cart-btn:hover {
+        background: #ff9800 !important;
+        color: #fff !important;
     }
     @media (max-width: 900px) {
         .product-card { width: 180px; min-height: 340px; }
@@ -613,7 +706,7 @@ const styles = `
         border-top-left-radius: 48px;
         border-top-right-radius: 48px;
         padding: 32px 48px 16px 48px;
-        margin-bottom: 0;
+        margin-bottom: 32px !important;
         width: 100%;
         box-sizing: border-box;
     }
@@ -858,7 +951,7 @@ async function renderCarousel() {
         card.style.alignItems = 'center';
         card.style.position = 'relative';
 
-        // Etiket (örnek: ÇOK SATAN, YILDIZ ÜRÜN, AR)
+        // Etiket (varsa)
         if (product.label) {
             const label = document.createElement('div');
             label.className = 'product-label';
@@ -877,7 +970,7 @@ async function renderCarousel() {
             label.style.boxShadow = '0 2px 8px 0 rgba(255,152,0,0.08)';
             card.appendChild(label);
         }
-        // AR etiketi örneği
+        // AR etiketi (varsa)
         if (product.ar) {
             const arLabel = document.createElement('div');
             arLabel.textContent = 'AR';
@@ -893,6 +986,64 @@ async function renderCarousel() {
             arLabel.style.zIndex = '3';
             card.appendChild(arLabel);
         }
+        // Video etiketi (varsa)
+        if (product.video) {
+            const videoLabel = document.createElement('div');
+            videoLabel.textContent = 'VIDEO';
+            videoLabel.style.position = 'absolute';
+            videoLabel.style.left = '16px';
+            videoLabel.style.top = product.ar ? '64px' : '40px';
+            videoLabel.style.background = '#888';
+            videoLabel.style.color = '#fff';
+            videoLabel.style.fontSize = '13px';
+            videoLabel.style.fontWeight = '700';
+            videoLabel.style.borderRadius = '8px';
+            videoLabel.style.padding = '2px 8px';
+            videoLabel.style.zIndex = '3';
+            card.appendChild(videoLabel);
+        }
+
+        // Fiyat
+        const priceContainer = document.createElement('div');
+        priceContainer.style.display = 'flex';
+        priceContainer.style.alignItems = 'center';
+        priceContainer.style.gap = '8px';
+        priceContainer.style.margin = '8px 0 0 0';
+
+        let hasDiscount = product.original_price && product.original_price > product.price;
+
+        if (hasDiscount) {
+            // Eski fiyat
+            const originalPrice = document.createElement('span');
+            originalPrice.textContent = `${product.original_price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
+            originalPrice.style.fontSize = '18px';
+            originalPrice.style.color = '#888';
+            originalPrice.style.textDecoration = 'line-through';
+            originalPrice.style.marginRight = '8px';
+            priceContainer.appendChild(originalPrice);
+
+            // İndirim oranı
+            const discount = Math.round(100 - (product.price / product.original_price) * 100);
+            const discountDiv = document.createElement('span');
+            discountDiv.style.fontWeight = 'bold';
+            discountDiv.style.fontSize = '22px';
+            discountDiv.style.color = '#43b02a';
+            discountDiv.style.display = 'flex';
+            discountDiv.style.alignItems = 'center';
+            discountDiv.innerHTML = `%${discount} <span style="display:inline-flex;align-items:center;background:#43b02a;color:#fff;border-radius:50%;width:28px;height:28px;justify-content:center;margin-left:4px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 16V8M12 16L8 12M12 16L16 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+            priceContainer.appendChild(discountDiv);
+        }
+
+        // İndirimli fiyat
+        const price = document.createElement('div');
+        price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
+        price.style.fontSize = '32px';
+        price.style.fontWeight = '700';
+        price.style.color = '#43b02a';
+        price.style.marginTop = '8px';
+        priceContainer.appendChild(price);
+
+        card.appendChild(priceContainer);
 
         // Favori butonu
         const favoriteBtn = document.createElement('button');
@@ -936,48 +1087,53 @@ async function renderCarousel() {
         ratingRow.style.display = 'flex';
         ratingRow.style.alignItems = 'center';
         ratingRow.style.gap = '2px';
+        // Yıldızlar (puan varsa ona göre, yoksa 5 yıldız dolu)
+        const rating = product.rating || 5;
         for (let i = 1; i <= 5; i++) {
             const star = document.createElement('span');
             star.textContent = '★';
-            star.style.color = '#FFD600';
-            star.style.fontSize = '18px';
+            star.style.color = i <= rating ? '#FFD600' : '#eee';
+            star.style.fontSize = '16px';
             ratingRow.appendChild(star);
         }
+        // Yorum sayısı (varsa)
         const review = document.createElement('span');
-        review.textContent = '(10)';
-        review.style.fontSize = '15px';
+        review.textContent = `(${product.reviewCount || 0})`;
+        review.style.fontSize = '13px';
         review.style.color = '#888';
         review.style.marginLeft = '6px';
         ratingRow.appendChild(review);
         card.appendChild(ratingRow);
 
-        // Fiyat
-        const price = document.createElement('div');
-        price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
-        price.style.fontSize = '32px';
-        price.style.fontWeight = '700';
-        price.style.color = '#212738';
-        price.style.display = 'block';
-        price.style.marginTop = '8px';
-        price.style.background = '#fff';
-        card.appendChild(price);
-
         // Sepete Ekle butonu
         const addToCartBtn = document.createElement('button');
         addToCartBtn.textContent = 'Sepete Ekle';
-        addToCartBtn.className = 'add-to-cart-btn';
+        addToCartBtn.className = 'add-to-cart-btn custom-add-to-cart-btn';
         addToCartBtn.style.width = '100%';
         addToCartBtn.style.background = '#fff3e0';
         addToCartBtn.style.color = '#e99100';
         addToCartBtn.style.border = 'none';
-        addToCartBtn.style.borderRadius = '24px';
+        addToCartBtn.style.borderRadius = '16px';
         addToCartBtn.style.fontWeight = 'bold';
-        addToCartBtn.style.fontSize = '20px';
-        addToCartBtn.style.padding = '18px 0';
-        addToCartBtn.style.marginTop = '24px';
+        addToCartBtn.style.fontSize = '16px';
+        addToCartBtn.style.padding = '12px 0';
+        addToCartBtn.style.marginTop = 'auto';
         addToCartBtn.style.cursor = 'pointer';
         addToCartBtn.style.boxShadow = '0 2px 8px 0 rgba(0,0,0,0.04)';
         addToCartBtn.style.background = '#fff';
+        addToCartBtn.style.transition = 'background 0.2s, color 0.2s';
+        addToCartBtn.addEventListener('mouseover', () => {
+            addToCartBtn.style.background = '#ff9800';
+            addToCartBtn.style.color = '#fff';
+        });
+        addToCartBtn.addEventListener('mouseout', () => {
+            addToCartBtn.style.background = '#fff';
+            addToCartBtn.style.color = '#e99100';
+        });
+        addToCartBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            alert('Ürün sepete eklendi!');
+        });
         card.appendChild(addToCartBtn);
 
         productsContainer.appendChild(card);
@@ -1196,19 +1352,32 @@ yeniKart.appendChild(price);
 // Sepete Ekle butonu
 const addToCartBtn = document.createElement('button');
 addToCartBtn.textContent = 'Sepete Ekle';
-addToCartBtn.className = 'add-to-cart-btn';
+addToCartBtn.className = 'add-to-cart-btn custom-add-to-cart-btn';
 addToCartBtn.style.width = '100%';
 addToCartBtn.style.background = '#fff3e0';
 addToCartBtn.style.color = '#e99100';
 addToCartBtn.style.border = 'none';
-addToCartBtn.style.borderRadius = '24px';
+addToCartBtn.style.borderRadius = '16px';
 addToCartBtn.style.fontWeight = 'bold';
-addToCartBtn.style.fontSize = '20px';
-addToCartBtn.style.padding = '18px 0';
-addToCartBtn.style.marginTop = '24px';
+addToCartBtn.style.fontSize = '16px';
+addToCartBtn.style.padding = '12px 0';
+addToCartBtn.style.marginTop = 'auto';
 addToCartBtn.style.cursor = 'pointer';
 addToCartBtn.style.boxShadow = '0 2px 8px 0 rgba(0,0,0,0.04)';
 addToCartBtn.style.background = '#fff';
+addToCartBtn.style.transition = 'background 0.2s, color 0.2s';
+addToCartBtn.addEventListener('mouseover', () => {
+    addToCartBtn.style.background = '#ff9800';
+    addToCartBtn.style.color = '#fff';
+});
+addToCartBtn.addEventListener('mouseout', () => {
+    addToCartBtn.style.background = '#fff';
+    addToCartBtn.style.color = '#e99100';
+});
+addToCartBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    alert('Ürün sepete eklendi!');
+});
 yeniKart.appendChild(addToCartBtn);
 
 // Kartı ekle
