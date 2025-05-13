@@ -419,7 +419,7 @@ class ProductCarousel {
         productsContainer.style.display = 'flex';
         productsContainer.style.overflowX = 'auto';
         productsContainer.style.gap = '12px';
-        productsContainer.style.padding = '0 32px';
+        productsContainer.style.padding = '0';
         productsContainer.style.scrollBehavior = 'smooth';
         productsContainer.style.background = '#fff';
         productsContainer.style.setProperty('background', '#fff', 'important');
@@ -535,44 +535,23 @@ const styles = `
     }
     .products-container {
         display: flex;
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        width: 100%;
-        box-sizing: border-box;
-        gap: 12px;
-        padding: 0 32px;
-        scrollbar-width: thin;
-        -ms-overflow-style: none;
-    }
-    .products-container::-webkit-scrollbar {
-        display: none;
-    }
-    .product-card {
-        min-width: 240px;
-        max-width: 240px;
-        flex: 0 0 240px;
-        box-sizing: border-box;
-    }
-    .carousel-area,
-    .products-container {
-        width: 1248px;
-        max-width: 1248px;
         gap: 12px;
         padding: 0;
-        margin: 0 auto;
+        margin: 0;
+        width: 100%;
         box-sizing: border-box;
-        justify-content: flex-start;
     }
     .product-card {
-        min-width: 240px;
-        max-width: 240px;
-        flex: 0 0 240px;
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: none;
+        width: calc((100% - 4 * 12px) / 5); /* 5 kart ve 4 gap */
         margin: 0;
         box-sizing: border-box;
     }
     .carousel-area {
-        width: 1248px;
-        max-width: 1248px;
+        width: 100%;
+        max-width: 100%;
         padding: 0;
         margin: 0 auto;
         box-sizing: border-box;
