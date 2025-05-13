@@ -489,12 +489,15 @@ const styles = `
     .carousel-arrow.right { 
         right: 12px; 
     }
-    .carousel-wrapper {
-        position: relative;
+    .carousel-wrapper,
+    .container,
+    .carousel-header-wrapper {
         width: 100%;
         max-width: 1400px;
         margin: 0 auto;
-        padding: 0;
+        padding-top: 0;
+        margin-top: 0;
+        box-sizing: border-box;
     }
     .carousel-arrows-container {
         position: absolute;
@@ -739,11 +742,11 @@ const styles = `
     .title-primary {
         text-align: left;
         color: #e99100;
-        font-size: 1.3rem;
+        font-size: 0.9rem;
         font-weight: 800;
         margin-bottom: 32px;
         margin-left: 0;
-        padding-left: 0;
+        padding-left: 12px;
     }
     .products-container {
         display: flex;
