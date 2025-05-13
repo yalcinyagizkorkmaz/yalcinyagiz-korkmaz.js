@@ -195,7 +195,7 @@ class ProductCarousel {
             : `<svg width='48' height='48' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fdf6ed'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='none'/></svg>`;
         favoriteBtn.dataset.productId = product.id;
         favoriteBtn.style.position = 'absolute';
-        favoriteBtn.style.top = '16px';
+        favoriteBtn.style.top = '32px';
         favoriteBtn.style.right = '16px';
         favoriteBtn.style.background = 'none';
         favoriteBtn.style.border = 'none';
@@ -462,7 +462,7 @@ const styles = `
     }
     .carousel-arrow {
         position: absolute;
-        top: 10%;
+        top: 80%;
         transform: translateY(-50%);
         background: #fff6ed;
         border-radius: 50%;
@@ -485,10 +485,12 @@ const styles = `
         display: block;
     }
     .carousel-arrow.left { 
-        left: 12px; 
+        left: 12px;
+        top: 40%;
     }
     .carousel-arrow.right { 
         right: 12px; 
+        top: 40%;
     }
     .carousel-wrapper,
     .container,
@@ -1191,7 +1193,7 @@ async function renderCarousel() {
         favoriteBtn.className = 'favorite-btn';
         favoriteBtn.innerHTML = `<svg width='32' height='32' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fff'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='none'/></svg>`;
         favoriteBtn.style.position = 'absolute';
-        favoriteBtn.style.top = '16px';
+        favoriteBtn.style.top = '32px';
         favoriteBtn.style.right = '16px';
         favoriteBtn.style.background = 'none';
         favoriteBtn.style.border = 'none';
@@ -1373,7 +1375,7 @@ const favoriteBtn = document.createElement('button');
 favoriteBtn.className = 'favorite-btn';
 favoriteBtn.innerHTML = `<svg width='48' height='48' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fdf6ed'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='none'/></svg>`;
 favoriteBtn.style.position = 'absolute';
-favoriteBtn.style.top = '16px';
+favoriteBtn.style.top = '32px';
 favoriteBtn.style.right = '16px';
 favoriteBtn.style.background = 'none';
 favoriteBtn.style.border = 'none';
