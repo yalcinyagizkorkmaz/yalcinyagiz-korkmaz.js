@@ -4,11 +4,11 @@ if (!localStorage.getItem('favorites')) {
     localStorage.setItem('favorites', JSON.stringify([]));
 }
 
-// Ebebek Ürün Karuseli
+
 class ProductCarousel {
     constructor() {
         this.products = [
-            // ... elle ürünler ...
+       
         ];
         this.favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         this.carouselContainer = null;
@@ -16,20 +16,20 @@ class ProductCarousel {
     }
 
     async init() {
-        // Sadece ana sayfada çalıştığını kontrol et
+        
         const path = window.location && window.location.pathname;
         if (!(path === '/' || path === '/anasayfa')) {
             console.log('yanlış sayfa');
             return;
         }
 
-        // Ürünleri getir
+   
         await this.fetchProducts();
         
-        // Karuseli oluştur
+
         this.createCarousel();
         
-        // Event listener'ları ekle
+  
         this.addEventListeners();
     }
 
@@ -79,7 +79,7 @@ class ProductCarousel {
 
         wrapper.appendChild(container);
 
-        // Oklar için yeni container
+    
         const arrowsContainer = document.createElement('div');
         arrowsContainer.className = 'carousel-arrows-container';
 
@@ -99,7 +99,7 @@ class ProductCarousel {
 
         this.createCarouselArea(this.products, carouselArea);
 
-        // Ok event listener'ları
+      
         leftArrow.addEventListener('click', () => {
             const products = carouselArea.querySelector('.products-container');
             products.scrollBy({ left: -(240 + 12), behavior: 'smooth' });
@@ -131,7 +131,7 @@ class ProductCarousel {
         card.style.borderRadius = '18px';
         card.style.height = '550px';
 
-        // Etiket (varsa)
+    
         if (product.label) {
             const label = document.createElement('div');
             label.className = 'product-label';
@@ -152,7 +152,7 @@ class ProductCarousel {
             label.style.lineHeight = '1.2';
             label.style.boxShadow = '0 2px 8px 0 rgba(67,176,42,0.08)';
         }
-        // AR etiketi (varsa)
+      
         if (product.ar) {
             const arLabel = document.createElement('div');
             arLabel.textContent = 'AR';
@@ -168,7 +168,7 @@ class ProductCarousel {
             arLabel.style.zIndex = '3';
             card.appendChild(arLabel);
         }
-        // Video etiketi (varsa)
+
         if (product.video) {
             const videoLabel = document.createElement('div');
             videoLabel.textContent = 'VIDEO';
@@ -185,7 +185,7 @@ class ProductCarousel {
             card.appendChild(videoLabel);
         }
 
-        // Favori butonu (sağ üst)
+ 
         const favoriteBtn = document.createElement('button');
         favoriteBtn.className = 'favorite-btn';
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -205,7 +205,7 @@ class ProductCarousel {
         favoriteBtn.style.zIndex = '2';
         card.appendChild(favoriteBtn);
 
-        // Ürün resmi
+     
         const image = document.createElement('img');
         image.src = product.img;
         image.alt = product.name;
@@ -215,7 +215,7 @@ class ProductCarousel {
         image.style.margin = '24px 0 12px 0';
         card.appendChild(image);
 
-        // Ürün başlığı
+ 
         const title = document.createElement('h3');
         title.innerHTML = `<span style="font-weight:700;">${product.brand}</span> - <span style="font-weight:400;">${product.name}</span>`;
         title.style.fontSize = '14px';
@@ -227,33 +227,7 @@ class ProductCarousel {
         title.style.background = '#fff';
         card.appendChild(title);
 
-        // Yıldız ve yorum satırı
-        const ratingRow = document.createElement('div');
-        ratingRow.style.display = 'flex';
-        ratingRow.style.alignItems = 'center';
-        ratingRow.style.gap = '2px';
-        ratingRow.style.justifyContent = 'flex-start';
-        ratingRow.style.width = '100%';
-        ratingRow.style.marginTop = '16px';
-        // Yıldızlar (puan varsa ona göre, yoksa random yıldız)
-        const rating = product.rating || Math.floor(Math.random() * 5) + 1;
-        for (let i = 1; i <= 5; i++) {
-            const star = document.createElement('span');
-            star.innerHTML = '★';
-            star.style.color = i <= rating ? '#FFD600' : '#eee';
-            star.style.fontSize = '20px';
-            ratingRow.appendChild(star);
-        }
-        // Yorum sayısı (yıldız sayısını göster)
-        const review = document.createElement('span');
-        review.textContent = `(${rating})`;
-        review.style.fontSize = '16px';
-        review.style.color = '#888';
-        review.style.marginLeft = '8px';
-        ratingRow.appendChild(review);
-        card.appendChild(ratingRow);
-
-        // Fiyat
+   
         const priceContainer = document.createElement('div');
         priceContainer.style.display = 'flex';
         priceContainer.style.alignItems = 'center';
@@ -265,14 +239,14 @@ class ProductCarousel {
         let hasDiscount = product.original_price && product.original_price > product.price;
 
         if (hasDiscount) {
-            // Fiyat kutusunu iki ana bloğa ayır
+         
             const priceBlock = document.createElement('div');
             priceBlock.style.display = 'flex';
             priceBlock.style.alignItems = 'flex-start';
             priceBlock.style.width = '100%';
             priceBlock.style.gap = '8px';
 
-            // Sol blok: Eski fiyat ve indirimli fiyat alt alta
+        
             const leftBlock = document.createElement('div');
             leftBlock.style.display = 'flex';
             leftBlock.style.flexDirection = 'column';
@@ -280,7 +254,7 @@ class ProductCarousel {
             leftBlock.style.justifyContent = 'flex-start';
             leftBlock.style.minWidth = '120px';
 
-            // Eski fiyat
+   
             const originalPrice = document.createElement('span');
             originalPrice.textContent = `${product.original_price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
             originalPrice.style.fontSize = '16px';
@@ -289,7 +263,7 @@ class ProductCarousel {
             originalPrice.style.fontWeight = 'bold';
             leftBlock.appendChild(originalPrice);
 
-            // İndirimli fiyat
+           
             const price = document.createElement('span');
             price.style.display = 'inline-block';
             price.style.fontSize = '24px';
@@ -300,7 +274,7 @@ class ProductCarousel {
             price.innerHTML = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} <span style=\"font-size:16px;vertical-align:middle;\">TL</span>`;
             leftBlock.appendChild(price);
 
-            // Sağ blok: İndirim oranı
+
             const rightBlock = document.createElement('div');
             rightBlock.style.display = 'flex';
             rightBlock.style.flexDirection = 'row';
@@ -369,7 +343,7 @@ class ProductCarousel {
             priceBlock.appendChild(rightBlock);
             priceContainer.appendChild(priceBlock);
         } else {
-            // İndirim yoksa sadece fiyatı göster
+         
             const price = document.createElement('span');
             price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
             price.style.fontSize = '20px';
@@ -380,7 +354,7 @@ class ProductCarousel {
 
         card.appendChild(priceContainer);
 
-        // Sepete Ekle butonu
+     
         const addToCartBtn = document.createElement('button');
         addToCartBtn.textContent = 'Sepete Ekle';
         addToCartBtn.className = 'add-to-cart-btn custom-add-to-cart-btn';
@@ -411,7 +385,7 @@ class ProductCarousel {
         });
         card.appendChild(addToCartBtn);
 
-        // Ürüne tıklama eventi
+     
         card.addEventListener('click', (e) => {
             if (!e.target.classList.contains('favorite-btn') && e.target !== addToCartBtn) {
                 window.open(`https://www.ebebek.com/p/${product.slug}`, '_blank');
@@ -437,7 +411,7 @@ class ProductCarousel {
     }
 
     addEventListeners() {
-        // Favori butonları için event delegation
+        
         this.carouselContainer.addEventListener('click', (e) => {
             if (e.target.classList.contains('favorite-btn')) {
                 const productId = e.target.dataset.productId;
@@ -472,7 +446,7 @@ class ProductCarousel {
         productsContainer.style.boxSizing = 'border-box';
         productsContainer.style.scrollSnapType = 'x mandatory';
 
-        // Tüm ürünleri göster
+       
         products.forEach(product => {
             const card = this.createProductCard(product);
             productsContainer.appendChild(card);
@@ -482,7 +456,7 @@ class ProductCarousel {
     }
 }
 
-// Stil tanımlamaları
+
 const styles = `
     body,
     eb-root,
@@ -946,12 +920,12 @@ const styles = `
     }
 `;
 
-// Stilleri sayfaya ekle
+
 const styleSheet = document.createElement('style');
 styleSheet.textContent = styles;
 document.head.appendChild(styleSheet);
 
-// Karuseli başlat
+
 new ProductCarousel(); 
 
 const FAVORI_KEY = 'favorites';
@@ -1017,18 +991,18 @@ function createCarousel(products) {
     container.appendChild(card);
   });
 
-  // Hikayelerden sonra eklemek için:
+
   const stories = document.querySelector('.stories-section');
   stories.parentNode.insertBefore(section, stories.nextSibling);
 }
 
-// Ana sayfa kontrolü
+
 const path = window.location && window.location.pathname;
 if (!(path === '/' || path === '/anasayfa')) {
   console.log('yanlış sayfa');
 } else {
-  // Ürünleri getir ve carouseli oluştur
-  createCarousel(products); // products senin ürün dizin
+ 
+  createCarousel(products); 
 } 
 
 function createEbbebekCarouselDOM() {
@@ -1074,11 +1048,11 @@ function createEbbebekCarouselDOM() {
 async function renderCarousel() {
     const carouselDiv = createEbbebekCarouselDOM();
 
-    // Ürünleri çek
+
     const response = await fetch('https://gist.githubusercontent.com/sevindi/8bcbde9f02c1d4abe112809c974e1f49/raw/9bf93b58df623a9b16f1db721cd0a7a539296cf0/products.json');
     const products = await response.json();
 
-    // Karusel ana kutusu
+
     const banner = document.createElement('div');
     banner.className = 'banner';
     banner.style.background = '#fff';
@@ -1088,7 +1062,6 @@ async function renderCarousel() {
     banner.style.boxShadow = '0 2px 12px 0 rgba(0,0,0,0.04)';
     banner.style.position = 'relative';
 
-    // eb-carousel-header
     const ebCarouselHeader = document.createElement('eb-carousel-header');
     const bannerTitles = document.createElement('div');
     bannerTitles.className = 'banner__titles';
@@ -1099,7 +1072,7 @@ async function renderCarousel() {
     ebCarouselHeader.appendChild(bannerTitles);
     banner.appendChild(ebCarouselHeader);
 
-    // Banner wrapper
+   
     const bannerWrapper = document.createElement('div');
     bannerWrapper.className = 'banner__wrapper';
     bannerWrapper.style.position = 'relative';
@@ -1107,7 +1080,7 @@ async function renderCarousel() {
     bannerWrapper.style.alignItems = 'center';
     bannerWrapper.style.background = '#fff';
 
-    // Sol ok (button.swiper-prev)
+  
     const leftArrow = document.createElement('button');
     leftArrow.className = 'swiper-prev';
     leftArrow.type = 'button';
@@ -1115,7 +1088,7 @@ async function renderCarousel() {
     leftArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M24 28L16 20L24 12" stroke="#e99100" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     leftArrow.style.marginRight = '4px';
 
-    // Sağ ok (button.swiper-next)
+  
     const rightArrow = document.createElement('button');
     rightArrow.className = 'swiper-next';
     rightArrow.type = 'button';
@@ -1123,7 +1096,7 @@ async function renderCarousel() {
     rightArrow.innerHTML = `<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff6ed"/><path d="M16 12L24 20L16 28" stroke="#e99100" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     rightArrow.style.marginLeft = '4px';
 
-    // Ürünler container
+    
     const productsContainer = document.createElement('div');
     productsContainer.className = 'products-container';
     productsContainer.style.display = 'flex';
@@ -1134,7 +1107,7 @@ async function renderCarousel() {
     productsContainer.style.background = '#fff';
     productsContainer.style.setProperty('background', '#fff', 'important');
 
-    // Kartları ekle
+ 
     products.forEach(product => {
         const card = document.createElement('div');
         card.className = 'product-card';
@@ -1152,7 +1125,7 @@ async function renderCarousel() {
         card.style.alignItems = 'center';
         card.style.position = 'relative';
 
-        // Etiket (varsa)
+  
         if (product.label) {
             const label = document.createElement('div');
             label.className = 'product-label';
@@ -1171,7 +1144,7 @@ async function renderCarousel() {
             label.style.boxShadow = '0 2px 8px 0 rgba(67,176,42,0.08)';
             card.appendChild(label);
         }
-        // AR etiketi (varsa)
+     
         if (product.ar) {
             const arLabel = document.createElement('div');
             arLabel.textContent = 'AR';
@@ -1187,7 +1160,7 @@ async function renderCarousel() {
             arLabel.style.zIndex = '3';
             card.appendChild(arLabel);
         }
-        // Video etiketi (varsa)
+
         if (product.video) {
             const videoLabel = document.createElement('div');
             videoLabel.textContent = 'VIDEO';
@@ -1204,7 +1177,7 @@ async function renderCarousel() {
             card.appendChild(videoLabel);
         }
 
-        // Yıldız ve yorum satırı
+     
         const ratingRow = document.createElement('div');
         ratingRow.style.display = 'flex';
         ratingRow.style.alignItems = 'center';
@@ -1224,7 +1197,7 @@ async function renderCarousel() {
         ratingRow.appendChild(review);
         card.appendChild(ratingRow);
 
-        // Fiyat
+        
         const price = document.createElement('div');
         price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
         price.style.fontSize = '20px';
@@ -1235,7 +1208,7 @@ async function renderCarousel() {
         price.style.background = '#fff';
         card.appendChild(price);
 
-        // Favori butonu
+       
         const favoriteBtn = document.createElement('button');
         favoriteBtn.className = 'favorite-btn';
         favoriteBtn.innerHTML = `<svg width='32' height='32' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fff'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='none'/></svg>`;
@@ -1250,7 +1223,7 @@ async function renderCarousel() {
         favoriteBtn.style.zIndex = '2';
         card.appendChild(favoriteBtn);
 
-        // Ürün görseli
+      
         const image = document.createElement('img');
         image.src = product.img;
         image.alt = product.name;
@@ -1260,7 +1233,7 @@ async function renderCarousel() {
         image.style.margin = '32px 0 16px 0';
         card.appendChild(image);
 
-        // Ürün başlığı
+  
         const title = document.createElement('h3');
         title.innerHTML = `<span style="font-weight:700;">${product.brand}</span> - <span style="font-weight:400;">${product.name}</span>`;
         title.style.fontSize = '18px';
@@ -1275,7 +1248,7 @@ async function renderCarousel() {
         productsContainer.appendChild(card);
     });
 
-    // Ürün kartlarını ekledikten sonra:
+
     const mevcutKartSayisi = productsContainer.children.length;
     const eksikKartSayisi = 5 - mevcutKartSayisi;
 
@@ -1299,7 +1272,7 @@ async function renderCarousel() {
         bosKart.style.flex = '0 0 320px';
         bosKart.style.borderRadius = '18px';
 
-        // Boş içerik
+    
         const bosYazi = document.createElement('div');
         bosYazi.textContent = 'Boş Kart';
         bosYazi.style.color = '#bbb';
@@ -1311,24 +1284,24 @@ async function renderCarousel() {
         productsContainer.appendChild(bosKart);
     }
 
-    // Karusel container
+   
     const productCarousel = document.createElement('div');
     productCarousel.className = 'product-carousel';
     productCarousel.appendChild(productsContainer);
 
-    // Okları ve karuseli wrapper'a ekle
+   
     bannerWrapper.appendChild(leftArrow);
     bannerWrapper.appendChild(productCarousel);
     bannerWrapper.appendChild(rightArrow);
 
-    // banner'a wrapper'ı ekle
+    
     banner.appendChild(bannerWrapper);
 
-    // Karuseli DOM'a ekle
+   
     carouselDiv.innerHTML = '';
     carouselDiv.appendChild(banner);
 
-    // Oklar ile kaydırma
+
     leftArrow.onclick = () => {
         productsContainer.scrollBy({ left: -340, behavior: 'smooth' });
     };
@@ -1340,43 +1313,43 @@ async function renderCarousel() {
 renderCarousel(); 
 
 function createEbebekCarouselHeader() {
-    // .container
+
     const container = document.createElement('div');
     container.className = 'container';
 
-    // eb-carousel-header
+   
     const carouselHeader = document.createElement('eb-carousel-header');
     carouselHeader.className = 'ng-star-inserted';
 
-    // .banner__titles
+    
     const bannerTitles = document.createElement('div');
     bannerTitles.className = 'banner__titles';
 
-    // h2 başlık
+   
     const h2 = document.createElement('h2');
     h2.className = 'title-primary';
     h2.textContent = 'Sizin için Seçtiklerimiz';
 
-    // Yapıyı birleştir
+   
     bannerTitles.appendChild(h2);
     carouselHeader.appendChild(bannerTitles);
     container.appendChild(carouselHeader);
 
-    // Karusel ve ürünler için bir alan ekle (örnek)
+   
     const carouselArea = document.createElement('div');
-    carouselArea.className = 'carousel-area'; // buraya karusel ve ürünler eklenecek
+    carouselArea.className = 'carousel-area'; 
     container.appendChild(carouselArea);
 
-    // Sayfada uygun yere ekle (örneğin body'nin başına)
+  
     document.body.insertBefore(container, document.body.firstChild);
 
-    // Artık carouselArea'ya ürün karuseli ekleyebilirsiniz
+   
     return carouselArea;
 }
 
-// Kullanım:
+
 const carouselArea = createEbebekCarouselHeader();
-// Şimdi carouselArea içine karusel ve ürün kartlarını ekleyebilirsiniz. 
+
 
 const yeniKart = document.createElement('div');
 yeniKart.className = 'product-card';
@@ -1396,7 +1369,7 @@ yeniKart.style.maxWidth = '240px';
 yeniKart.style.flex = '0 0 240px';
 yeniKart.style.borderRadius = '18px';
 
-// Etiket
+
 const label = document.createElement('div');
 label.className = 'product-label';
 label.innerHTML = `<span style="display:flex;align-items:center;gap:4px;">
@@ -1417,7 +1390,7 @@ label.style.lineHeight = '1.2';
 label.style.boxShadow = '0 2px 8px 0 rgba(67,176,42,0.08)';
 yeniKart.appendChild(label);
 
-// Favori butonu
+
 const favoriteBtn = document.createElement('button');
 favoriteBtn.className = 'favorite-btn';
 favoriteBtn.innerHTML = `<svg width='48' height='48' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fdf6ed'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='none'/></svg>`;
@@ -1432,7 +1405,7 @@ favoriteBtn.style.cursor = 'pointer';
 favoriteBtn.style.zIndex = '2';
 yeniKart.appendChild(favoriteBtn);
 
-// Ürün resmi
+
 const image = document.createElement('img');
 image.src = 'https://via.placeholder.com/200x140?text=Yeni+Kart'; // örnek resim
 image.alt = 'Yeni Kart';
@@ -1442,7 +1415,7 @@ image.style.objectFit = 'contain';
 image.style.margin = '32px 0 16px 0';
 yeniKart.appendChild(image);
 
-// Başlık
+
 const title = document.createElement('h3');
 title.innerHTML = `<span style="font-weight:700;">Marka</span> - <span style="font-weight:400;">Yeni Kart Ürün Adı</span>`;
 title.style.fontSize = '18px';
@@ -1454,27 +1427,7 @@ title.style.overflow = 'hidden';
 title.style.background = '#fff';
 yeniKart.appendChild(title);
 
-// Yıldız ve yorum
-const ratingRow = document.createElement('div');
-ratingRow.style.display = 'flex';
-ratingRow.style.alignItems = 'center';
-ratingRow.style.gap = '4px';
-for (let i = 1; i <= 5; i++) {
-    const star = document.createElement('span');
-    star.innerHTML = '★';
-    star.style.color = '#FFD600';
-    star.style.fontSize = '20px';
-    ratingRow.appendChild(star);
-}
-const review = document.createElement('span');
-review.textContent = '(0)';
-review.style.fontSize = '16px';
-review.style.color = '#888';
-review.style.marginLeft = '8px';
-ratingRow.appendChild(review);
-yeniKart.appendChild(ratingRow);
 
-// Fiyat
 const price = document.createElement('div');
 price.textContent = `0,00 TL`;
 price.style.fontSize = '20px';
@@ -1485,7 +1438,7 @@ price.style.marginTop = '4px';
 price.style.background = '#fff';
 yeniKart.appendChild(price);
 
-// Sepete Ekle butonu
+
 const addToCartBtn = document.createElement('button');
 addToCartBtn.textContent = 'Sepete Ekle';
 addToCartBtn.className = 'add-to-cart-btn custom-add-to-cart-btn';
@@ -1516,5 +1469,5 @@ addToCartBtn.addEventListener('click', (e) => {
 });
 yeniKart.appendChild(addToCartBtn);
 
-// Kartı ekle
+
 document.querySelector('.products-container').appendChild(yeniKart); 
