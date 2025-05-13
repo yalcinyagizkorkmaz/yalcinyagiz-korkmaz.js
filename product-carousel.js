@@ -303,9 +303,12 @@ class ProductCarousel {
             // Sağ blok: İndirim oranı
             const rightBlock = document.createElement('div');
             rightBlock.style.display = 'flex';
-            rightBlock.style.flexDirection = 'column';
-            rightBlock.style.alignItems = 'flex-start';
+            rightBlock.style.flexDirection = 'row';
+            rightBlock.style.alignItems = 'center';
             rightBlock.style.justifyContent = 'flex-start';
+            rightBlock.style.gap = '2px';
+            rightBlock.style.margin = '0';
+            rightBlock.style.padding = '0';
 
             const discount = Math.round(100 - (product.price / product.original_price) * 100);
             const discountDiv = document.createElement('div');
@@ -314,10 +317,10 @@ class ProductCarousel {
             discountDiv.style.color = '#43b02a';
             discountDiv.style.display = 'flex';
             discountDiv.style.alignItems = 'center';
-            discountDiv.style.gap = '6px';
+            discountDiv.style.gap = '0';
             discountDiv.style.justifyContent = 'flex-start';
             discountDiv.style.marginLeft = '0';
-            discountDiv.style.marginRight = 'auto';
+            discountDiv.style.marginRight = '0';
             discountDiv.style.marginTop = '-2px';
             discountDiv.innerHTML = `
               <span style="font-weight:bold;font-size:32px;color:#43b02a;">%${discount}</span>
@@ -331,6 +334,7 @@ class ProductCarousel {
                 height:36px;
                 justify-content:center;
                 margin-left:0px;
+                padding:0;
               ">
                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
                   <g>
