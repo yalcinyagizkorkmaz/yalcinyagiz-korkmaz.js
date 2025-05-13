@@ -49,15 +49,12 @@ class ProductCarousel {
     }
 
     createCarousel() {
-        // 1. En dış container
         const container = document.createElement('div');
         container.className = 'container';
 
-        // 2. Başlık için ayrı bir kapsayıcı
         const headerWrapper = document.createElement('div');
         headerWrapper.className = 'carousel-header-wrapper';
 
-        // 3. eb-carousel-header ve başlık
         const carouselHeader = document.createElement('eb-carousel-header');
         carouselHeader.className = 'ng-star-inserted';
 
@@ -68,7 +65,6 @@ class ProductCarousel {
         h2.className = 'title-primary';
         h2.textContent = 'Sizin için Seçtiklerimiz';
 
-        // Yapıyı birleştir
         bannerTitles.appendChild(h2);
         carouselHeader.appendChild(bannerTitles);
         headerWrapper.appendChild(carouselHeader);
@@ -646,6 +642,36 @@ const styles = `
         margin-top: 24px;
         cursor: pointer;
         box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+    }
+    .carousel-header-wrapper {
+        background: #fef7ec;
+        border-top-left-radius: 48px;
+        border-top-right-radius: 48px;
+        padding: 32px 48px 16px 48px;
+        margin-bottom: 0;
+    }
+    .banner__titles {
+        display: flex;
+        align-items: center;
+    }
+    .title-primary {
+        color: #f28e00;
+        font-size: 2.5rem;
+        font-family: 'Quicksand', 'Poppins', Arial, sans-serif;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.1;
+        letter-spacing: 0.5px;
+    }
+    @media (max-width: 768px) {
+        .carousel-header-wrapper {
+            padding: 16px 16px 8px 16px;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+        }
+        .title-primary {
+            font-size: 1.5rem;
+        }
     }
 `;
 
