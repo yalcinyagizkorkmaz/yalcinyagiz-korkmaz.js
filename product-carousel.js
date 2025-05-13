@@ -462,7 +462,7 @@ const styles = `
     }
     .carousel-arrow {
         position: absolute;
-        top: 40%;
+        top: 10%;
         transform: translateY(-50%);
         background: #fff6ed;
         border-radius: 50%;
@@ -580,6 +580,7 @@ const styles = `
     }
     .product-card:hover {
         box-shadow: 0 8px 24px 0 rgba(0,0,0,0.12);
+        border: 2px solid #e99100 !important;
     }
     .product-label {
         position: absolute;
@@ -754,7 +755,7 @@ const styles = `
     }
     .carousel-arrow {
         position: absolute;
-        top: 40%;
+        top: 50%;
         transform: translateY(-50%);
         background: #fff6ed;
         border-radius: 50%;
