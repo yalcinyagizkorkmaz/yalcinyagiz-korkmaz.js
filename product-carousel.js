@@ -1,5 +1,9 @@
 console.log('Kod başladı, path:', window.location.pathname);
 
+if (!localStorage.getItem('favorites')) {
+    localStorage.setItem('favorites', JSON.stringify([]));
+}
+
 // Ebebek Ürün Karuseli
 class ProductCarousel {
     constructor() {
@@ -146,57 +150,51 @@ class ProductCarousel {
     }
 
     createCarousel() {
-        // Ana arka plan (bej kutu)
-        const bg = document.createElement('div');
-        bg.className = 'carousel-bg';
-        bg.style.background = '#faf6ed';
-        bg.style.borderRadius = '28px';
-        bg.style.padding = '32px 0 16px 0';
-        bg.style.marginBottom = '32px';
-        bg.style.boxShadow = '0 2px 12px 0 rgba(0,0,0,0.04)';
+        // Banner ve container
+        const banner = document.createElement('div');
+        banner.className = 'banner';
+        const container = document.createElement('div');
+        container.className = 'container';
 
+        // Başlık
+        const bannerTitles = document.createElement('div');
+        bannerTitles.className = 'banner__titles';
+        const title = document.createElement('h2');
+        title.className = 'title-primary';
+        title.textContent = 'Sizin için Seçtiklerimiz';
+        bannerTitles.appendChild(title);
+
+        // Wrapper
+        const bannerWrapper = document.createElement('div');
+        bannerWrapper.className = 'banner__wrapper';
+
+        // Karusel
         this.carouselContainer = document.createElement('div');
         this.carouselContainer.className = 'product-carousel';
+        this.carouselContainer.style.position = 'relative';
 
-        // Başlık ekle
-        const title = document.createElement('h2');
-        title.textContent = 'Sizin için Seçtiklerimiz';
-        title.style.fontSize = '28px';
-        title.style.marginBottom = '24px';
-        title.style.color = '#e99100';
-        title.style.fontWeight = '700';
-        title.style.background = 'none';
-        title.style.textAlign = 'left';
-        title.style.letterSpacing = '0.5px';
-        title.style.paddingLeft = '24px';
-        title.style.marginLeft = '0';
-        bg.appendChild(title);
+        // Oklar
+        this.addCarouselArrows(this.carouselContainer);
 
-        // Ürün container'ı oluştur
+        // Ürünler
         const productsContainer = document.createElement('div');
         productsContainer.className = 'products-container';
-        productsContainer.style.display = 'flex';
-        productsContainer.style.overflowX = 'auto';
-        productsContainer.style.gap = '12px';
-        productsContainer.style.flexWrap = 'nowrap';
-        productsContainer.style.padding = '0 24px 8px 24px';
-
-        // Ürünleri ekle
         this.products.forEach(product => {
             const productCard = this.createProductCard(product);
             productsContainer.appendChild(productCard);
         });
-
         this.carouselContainer.appendChild(productsContainer);
-        bg.appendChild(this.carouselContainer);
 
-        // Karusel oklarını ekle
-        this.addCarouselArrows(bg);
+        // Hiyerarşi
+        bannerWrapper.appendChild(this.carouselContainer);
+        container.appendChild(bannerTitles);
+        container.appendChild(bannerWrapper);
+        banner.appendChild(container);
 
-        // Karuseli sayfaya ekle
+        // Sayfaya ekle
         const stories = document.querySelector('.stories-section');
         if (stories) {
-            stories.parentNode.insertBefore(bg, stories.nextSibling);
+            stories.parentNode.insertBefore(banner, stories.nextSibling);
         }
     }
 
@@ -222,7 +220,10 @@ class ProductCarousel {
         if (product.label) {
             const label = document.createElement('div');
             label.className = 'product-label';
-            label.innerHTML = `<span style="display:flex;align-items:center;gap:4px;"><svg width='24' height='24' fill='#ff9800' viewBox='0 0 24 24'><path d='M7 2v2H3v2h2v14h14V6h2V4h-4V2H7zm2 2h6v2H9V4zm8 4v12H7V8h10z'/></svg>${product.label.replace(/\n/g, '<br>')}</span>`;
+            label.innerHTML = `<span style="display:flex;align-items:center;gap:4px;">
+                <svg width="24" height="24" fill="#ff9800" viewBox="0 0 24 24"><path d="M7 2v2H3v2h2v14h14V6h2V4h-4V2H7zm2 2h6v2H9V4zm8 4v12H7V8h10z"/></svg>
+                ${product.label.replace(/\n/g, '<br>')}
+            </span>`;
             label.style.position = 'absolute';
             label.style.left = '16px';
             label.style.top = '16px';
@@ -241,7 +242,11 @@ class ProductCarousel {
         // Favori butonu (sağ üst)
         const favoriteBtn = document.createElement('button');
         favoriteBtn.className = 'favorite-btn';
-        favoriteBtn.innerHTML = `<svg width='48' height='48' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fdf6ed'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='none'/></svg>`;
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const isFavorite = favorites.includes(product.id);
+        favoriteBtn.innerHTML = isFavorite
+            ? `<svg width='48' height='48' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fdf6ed'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='#e99100'/></svg>`
+            : `<svg width='48' height='48' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fdf6ed'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='none'/></svg>`;
         favoriteBtn.dataset.productId = product.id;
         favoriteBtn.style.position = 'absolute';
         favoriteBtn.style.top = '16px';
@@ -267,7 +272,7 @@ class ProductCarousel {
         // Ürün başlığı (marka bold, ürün adı normal)
         const title = document.createElement('h3');
         const [brand, ...rest] = product.name.split(' - ');
-        title.innerHTML = `<span style='font-weight:700;'>${brand}</span> - <span style='font-weight:400;'>${rest.join(' - ')}</span>`;
+        title.innerHTML = `<span style="font-weight:700;">${brand}</span> - <span style="font-weight:400;">${rest.join(' - ')}</span>`;
         title.style.fontSize = '18px';
         title.style.fontWeight = '400';
         title.style.color = '#444';
@@ -305,14 +310,52 @@ class ProductCarousel {
         ratingRow.appendChild(review);
         card.appendChild(ratingRow);
 
-        // Fiyat
+        // Fiyat ve indirim alanı
+        const priceContainer = document.createElement('div');
+        priceContainer.style.display = 'flex';
+        priceContainer.style.alignItems = 'center';
+        priceContainer.style.gap = '8px';
+        priceContainer.style.margin = '16px 0 0 0';
+
+        // Eski fiyat (her zaman göster)
+        if (product.original_price) {
+            const originalPrice = document.createElement('span');
+            originalPrice.textContent = `${product.original_price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
+            originalPrice.style.fontSize = '20px';
+            originalPrice.style.color = '#888';
+            originalPrice.style.textDecoration = 'line-through';
+            originalPrice.style.fontWeight = '500';
+            priceContainer.appendChild(originalPrice);
+        }
+
+        // İndirim rozeti (sadece indirim varsa)
+        if (product.original_price && product.original_price !== product.price) {
+            const discount = document.createElement('span');
+            const discountAmount = Math.round(((product.original_price - product.price) / product.original_price) * 100);
+            discount.innerHTML = `<span style="
+                display:inline-flex;
+                align-items:center;
+                background:#43b02a;
+                color:#fff;
+                font-weight:700;
+                font-size:20px;
+                border-radius:50px;
+                padding:2px 12px 2px 8px;
+                gap:4px;
+            ">%${discountAmount} <svg width='20' height='20' style='margin-left:2px' viewBox='0 0 20 20'><circle cx='10' cy='10' r='10' fill='#43b02a'/><path d='M10 6v6M10 12l-2-2m2 2l2-2' stroke='#fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg></span>`;
+            priceContainer.appendChild(discount);
+        }
+
+        // Güncel fiyat (her zaman)
         const price = document.createElement('div');
-        price.className = 'price';
         price.textContent = `${product.price.toLocaleString('tr-TR', {minimumFractionDigits: 2})} TL`;
         price.style.fontSize = '32px';
         price.style.fontWeight = '700';
-        price.style.color = '#444';
-        price.style.margin = '24px 0 0 0';
+        price.style.color = '#43b02a';
+        price.style.display = 'block';
+        price.style.marginTop = '4px';
+
+        card.appendChild(priceContainer);
         card.appendChild(price);
 
         // Sepette fiyatı varsa (örnek: product.inCartPrice)
@@ -357,6 +400,22 @@ class ProductCarousel {
                 window.open(`https://www.ebebek.com/p/${product.slug}`, '_blank');
             }
         });
+
+        favoriteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            const idx = favorites.indexOf(product.id);
+            if (idx === -1) {
+                favorites.push(product.id);
+            } else {
+                favorites.splice(idx, 1);
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            favoriteBtn.innerHTML = favorites.includes(product.id)
+                ? `<svg width='48' height='48' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fdf6ed'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='#e99100'/></svg>`
+                : `<svg width='48' height='48' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fdf6ed'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='none'/></svg>`;
+        });
+
         return card;
     }
 
@@ -375,10 +434,10 @@ class ProductCarousel {
         
         if (index === -1) {
             this.favorites.push(productId);
-            button.innerHTML = '❤️';
+            button.innerHTML = `<svg width='48' height='48' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fdf6ed'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='#e99100'/></svg>`;
         } else {
             this.favorites.splice(index, 1);
-            button.innerHTML = '🤍';
+            button.innerHTML = `<svg width='48' height='48' viewBox='0 0 48 48'><circle cx='24' cy='24' r='24' fill='#fdf6ed'/><path d='M24 34s-10.5-6.525-10.5-14.25A6.75 6.75 0 0 1 24 13.5a6.75 6.75 0 0 1 10.5 6.25C34.5 27.475 24 34 24 34z' stroke='#e99100' stroke-width='2' fill='none'/></svg>`;
         }
         
         localStorage.setItem('favorites', JSON.stringify(this.favorites));
@@ -394,6 +453,8 @@ class ProductCarousel {
         rightArrow.innerHTML = '&#8594;';
         container.appendChild(leftArrow);
         container.appendChild(rightArrow);
+        leftArrow.style.left = '12px';
+        rightArrow.style.right = '12px';
         leftArrow.addEventListener('click', () => {
             const products = container.querySelector('.products-container');
             products.scrollBy({ left: -250, behavior: 'smooth' });
@@ -435,8 +496,8 @@ const styles = `
         font-weight: bold;
         transition: background 0.2s;
     }
-    .carousel-arrow.left { left: -24px; }
-    .carousel-arrow.right { right: -24px; }
+    .carousel-arrow.left { left: 12px; }
+    .carousel-arrow.right { right: 12px; }
     .carousel-arrow:hover { background: #ffe0b2; }
     .product-carousel {
         width: 100%;
